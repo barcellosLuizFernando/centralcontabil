@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/D:/Projetos/CentralContabil/src/WsSPED/NfeDownloadNFe.wsdl" uri="xml-resources/web-service-references/NfeDownloadNFe/wsdl/NfeDownloadNFe.wsdl"/>
+    <system systemId="file:/D:/Projetos/CentralContabil/src/WsSPED/NFeStatusServico3.wsdl" uri="xml-resources/web-service-references/NFeStatusServico3/wsdl/NFeStatusServico3.wsdl"/>
+    <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/NFeStatusServico3-wsdl/catalog/NFeStatusServico3.wsdl" uri="xml-resources/web-service-references/NFeStatusServico3/wsdl/NFeStatusServico3.wsdl"/>
+    <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/NfeDownloadNFe-wsdl/catalog/NfeDownloadNFe.wsdl" uri="xml-resources/web-service-references/NfeDownloadNFe/wsdl/NfeDownloadNFe.wsdl"/>
+    <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/CadConsultaCadastro2-wsdl/catalog/CadConsultaCadastro2.wsdl" uri="xml-resources/web-service-references/CadConsultaCadastro2/wsdl/CadConsultaCadastro2.wsdl"/>
+</catalog>

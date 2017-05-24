@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RequerimentoICMS_SC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="93e75314-28cc-42fe-a59e-588a2f2b8cb9">
+	<property name="ireport.zoom" value="2.3579476910000117"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="251"/>
+	<queryString>
+		<![CDATA[SELECT
+    A.id,
+    A.id_produtor,
+    b.nome as produtor,
+    A.id_estabelecimento,
+    c.descricao as nome_estab,
+    c.inscri_est as ie,
+    b.inscricao_federal as cpf,
+    concat(c.endereco, ', ',c.numero, ', Bairro ', c.bairro) as endereco,
+    c.municipio,
+    'Cultivo de Milho, Cultivo de Soja, Cultivo de Trigo, Cultivo de espécies madeireiras' as atividades,
+    e.nome as emitente,
+    d.dt_emissao,
+    d.nro_nf,
+    d.valor_credito
+
+
+
+FROM
+    produtor_icms a
+LEFT JOIN cad_pessoas b on (b.id = a.id_produtor)
+LEFT JOIN icms_estabelecimentos c on (c.id = a.id_estabelecimento)
+left JOIN produtor_icms_notas d on (d.id = a.id)
+LEFT JOIN cad_pessoas e on (e.id = d.id_emitente)
+
+where a.id = 2
+
+order by d.dt_emissao]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_produtor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="produtor" class="java.lang.String"/>
+	<field name="id_estabelecimento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_estab" class="java.lang.String"/>
+	<field name="ie" class="java.lang.Long"/>
+	<field name="cpf" class="java.lang.Double"/>
+	<field name="endereco" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="municipio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="atividades" class="java.lang.String"/>
+	<field name="emitente" class="java.lang.String"/>
+	<field name="dt_emissao" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nro_nf" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor_credito" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="variable1" class="java.lang.Double" resetType="Group" resetGroup="NotaFiscal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_credito}]]></variableExpression>
+	</variable>
+	<group name="NotaFiscal">
+		<groupExpression><![CDATA[$F{id_estabelecimento}]]></groupExpression>
+		<groupFooter>
+			<band height="21">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="20" uuid="546a0354-e5da-4bdf-8d0b-b3fa4de23834"/>
+				</rectangle>
+				<line>
+					<reportElement x="440" y="0" width="1" height="20" uuid="9a4a4f3a-3977-40bb-aa3b-4cc64a669c5b"/>
+				</line>
+				<line>
+					<reportElement x="345" y="0" width="1" height="20" uuid="bdcc4337-bdbc-43c3-b047-72b44879be50"/>
+				</line>
+				<staticText>
+					<reportElement x="2" y="4" width="342" height="16" uuid="e53b474e-bc1a-49ec-a50c-d1ece049b2d6"/>
+					<textElement>
+						<font fontName="Times New Roman" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL DO CRÉDITO .............................................................. R$]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement x="347" y="4" width="90" height="17" uuid="2a690860-89b8-48e8-92b9-771be6004437"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="329" splitType="Stretch">
+			<staticText>
+				<reportElement x="83" y="3" width="364" height="57" uuid="31c65d0e-e171-4a76-a933-30d208189568"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE SANTA CATARINA
+SECRETARIA DE ESTADO DA FAZENDA
+DIRETORIA DE ADMINISTRAÇÃO TRIBUTÁRIA
+XX GERENCIA REGIONAL DA FAZENDA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="12" y="0" width="65" height="60" uuid="ad76ff3d-7b7d-47e3-a146-b7cc85c9287e"/>
+				<imageExpression><![CDATA["D:\\Projetos\\CentralContabil\\reports\\LogFazendaSC.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="76" width="469" height="18" uuid="aefe8528-842d-4f6e-8b16-bda0fc45efa4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SENHOR GERENTE REGIONAL DA FAZENDA ESTADUAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="102" width="555" height="34" uuid="70dce8f8-f08a-4425-9b96-ae72e75cc4be"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="101" width="132" height="18" uuid="00515d13-98e8-455b-99bc-948d00362016"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[NOME DO PRODUTOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="105" width="43" height="31" uuid="44494182-6221-470c-85f4-769ee56290ef"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[I.E. Nº
+CPF Nº]]></text>
+			</staticText>
+			<line>
+				<reportElement x="340" y="102" width="1" height="34" uuid="827182db-d74c-4dca-b1d2-35cfb2b9cc07"/>
+			</line>
+			<line>
+				<reportElement x="341" y="119" width="214" height="1" uuid="974963eb-393a-40a0-8dc7-92356b0e7930"/>
+			</line>
+			<rectangle>
+				<reportElement x="0" y="143" width="555" height="34" uuid="2b26f123-2981-43a4-b6ce-6e21fe0fb263"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="143" width="339" height="18" uuid="0cc9ff73-fe0f-43df-983c-a40aba84cbda"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO (Linha, Rua, nº, Bairro)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="184" width="555" height="46" uuid="0afc381c-1ce4-40a5-9175-1272b27454d8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="184" width="339" height="18" uuid="c2cd8592-2656-4f6f-8f60-49156bdbe1f6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ESPECIFICAÇÃO DAS ATIVIDADES AGROPECUÁRIAS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="232" width="555" height="93" uuid="7bbf2cb0-cd31-4a93-bb03-3bdc75466db0"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Requer o reconhecimento do crédito do ICMS correspondente aos insumos, máquinas e implementos utilizados na produção agropecuária nas condições estabelecidas no artigo 29, 42 e 44 do RICMS – SC, conforme notas fiscais relacionadas abaixo. Para implementação do pedido, compromete-se a aceitar e cumprir as obrigações acessórias estabelecidas, e em especial:
+a)	Manter em seu poder e sempre em bom estado a Ficha de Controle do Crédito;
+b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que for utilizar o saldo existente.
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="119" width="338" height="17" uuid="22c4e27e-dd97-43d4-8200-259a7e11861a"/>
+				<textFieldExpression><![CDATA[$F{produtor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="161" width="553" height="20" uuid="86e87997-7017-4711-abec-1d6e5a0516cf"/>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<textField pattern="000000000">
+				<reportElement x="387" y="105" width="168" height="14" uuid="1444fd53-19f8-4f42-b336-22e51092c7be"/>
+				<textFieldExpression><![CDATA[$F{ie}]]></textFieldExpression>
+			</textField>
+			<textField pattern="00000000000">
+				<reportElement x="387" y="120" width="168" height="20" uuid="2fe4a242-e0bb-4829-bada-99b3473516c4"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="340" y="143" width="1" height="34" uuid="513e83e2-26a0-4c06-9fe5-4514f8988742"/>
+			</line>
+			<staticText>
+				<reportElement x="343" y="143" width="132" height="18" uuid="e9db1ac8-8c29-4848-a59d-8068c1128381"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MUNICÍPIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="343" y="161" width="212" height="20" uuid="3704d5d5-992d-431f-9d8b-88501d6ad394"/>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="202" width="541" height="28" uuid="ebdb6d5a-162b-4960-b23b-278460c56fd5"/>
+				<textFieldExpression><![CDATA[$F{atividades}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="18" uuid="a4fa80ef-cae2-417b-808c-1c8661c8e76f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="440" y="0" width="115" height="18" uuid="cfc32b77-efce-480b-b3fc-a7e1d7ad7e02"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USO DO FISCAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="18" width="555" height="28" uuid="d8d50c8d-b1ea-4266-9826-1f3fa748fdec"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="345" y="18" width="95" height="28" uuid="a51f193b-8b20-4bd6-a0e7-eaa1589c3a60"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[VALOR DO CRÉDITO R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="18" width="58" height="28" uuid="6bed6007-4819-40fb-b22f-9e767ec7c931"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[NOTA FISCAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="18" width="58" height="28" uuid="b2801741-dc17-49c4-a90f-e0ae052f7e64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="18" width="228" height="28" uuid="69c1b2ed-4d92-4a1d-b217-31d629bbf128"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[EMITENTE DA NOTA FISCAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="18" width="116" height="28" uuid="d537a5b6-2594-401e-802f-96acad49391f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[VALOR RECONHECIDO R$]]></text>
+			</staticText>
+			<line>
+				<reportElement x="440" y="18" width="1" height="28" uuid="f1694a4c-a15a-4c46-9463-36a23f8adbe0"/>
+			</line>
+			<line>
+				<reportElement x="345" y="18" width="1" height="28" uuid="df5a3eab-6a43-4fae-84a5-d497848c660a"/>
+			</line>
+			<line>
+				<reportElement x="287" y="18" width="1" height="28" uuid="749f6bca-092b-41e4-9683-44e96e5fd67f"/>
+			</line>
+			<line>
+				<reportElement x="229" y="18" width="1" height="28" uuid="e8c8d2ce-9b0e-437e-9c2c-de2ae2a04f1e"/>
+			</line>
+			<line>
+				<reportElement x="440" y="0" width="1" height="18" uuid="6b44d28b-2164-470f-92e1-3ede9f1f9be3"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" uuid="b505bc54-a4d6-4084-8445-936e8a87d697"/>
+			</rectangle>
+			<line>
+				<reportElement x="440" y="0" width="1" height="20" uuid="017ee838-6aef-4a30-ab51-35e25e0e24f4"/>
+			</line>
+			<line>
+				<reportElement x="345" y="0" width="1" height="20" uuid="e9edf4f6-1a3a-4302-82c4-20ce38f86ebc"/>
+			</line>
+			<line>
+				<reportElement x="287" y="0" width="1" height="20" uuid="43e55a4c-dee2-4487-9741-e3c7522f9c68"/>
+			</line>
+			<line>
+				<reportElement x="229" y="0" width="1" height="20" uuid="336479ac-b121-4be9-8ba0-b76f1f90a20f"/>
+			</line>
+			<textField>
+				<reportElement x="3" y="1" width="226" height="20" uuid="8cf3050b-baf3-4478-9c72-30bf303f4210"/>
+				<textFieldExpression><![CDATA[$F{emitente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="230" y="1" width="58" height="20" uuid="7014f7f0-b565-42ca-a517-26893f0d102e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dt_emissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="1" width="53" height="20" uuid="f92e5bcc-d81b-4888-8e54-674416ff194f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{nro_nf}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="346" y="1" width="91" height="20" uuid="88f8788c-7945-4c04-88b4-a477aa8cff58"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valor_credito}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="219">
+			<rectangle>
+				<reportElement x="0" y="65" width="555" height="83" uuid="14dcfee9-647c-4a92-8a82-c60acdc21baa"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="375" height="15" uuid="4d0bff7e-bbf2-4e01-80f5-2587446f65a7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NESTES TERMOS PEDE DEFERIMENTO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="17" width="555" height="44" uuid="6ae6161a-4fc3-4c82-9e21-2e1d671ea7bc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="17" width="227" height="18" uuid="e6a3d8b6-7396-431e-8881-862d170d3830"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="17" width="321" height="18" uuid="d9937164-65ea-4971-9410-ce4c5b40847d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ASSINATURA DO PRODUTOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="232" y="17" width="1" height="44" uuid="c129d907-8aa3-4783-bbe8-2a00e5d1fd45"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="65" width="555" height="18" uuid="9dcf9514-60b4-46b9-a9d3-199108c6b920"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PARA USO EXCLUSIVO DA AUTORIDADE FISCAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="83" width="555" height="1" uuid="36398b5f-efb9-41e2-b3f7-7b501da815c6"/>
+			</line>
+			<line>
+				<reportElement x="340" y="83" width="1" height="64" uuid="2a2002a4-b285-418d-bd51-473bd08fa457"/>
+			</line>
+			<line>
+				<reportElement x="0" y="97" width="340" height="1" uuid="185b6815-0109-4d48-87d0-3e309217d757"/>
+			</line>
+			<line>
+				<reportElement x="0" y="110" width="340" height="1" uuid="798d09cd-0956-4d22-9611-7b2d014ee804"/>
+			</line>
+			<line>
+				<reportElement x="0" y="122" width="340" height="1" uuid="637b0796-d51f-4248-a416-1170eea4dbc7"/>
+			</line>
+			<line>
+				<reportElement x="0" y="135" width="340" height="1" uuid="c17f7d5f-d538-45ca-a237-bd360bdcefa4"/>
+			</line>
+			<line>
+				<reportElement x="341" y="105" width="214" height="1" uuid="43e435d6-7688-47c5-8525-3e89cff07614"/>
+			</line>
+			<staticText>
+				<reportElement x="342" y="85" width="100" height="20" uuid="304a17dd-60c5-44c4-ace7-067dd63ee97a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[MATRÍCULA Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="105" width="100" height="20" uuid="9a2582c7-5044-4cb0-b024-5e6b9071ea30"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[ASSINATURA]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Capa" language="groovy" pageWidth="595" pageHeight="842" columnWidth="525" leftMargin="50" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1a7f9a98-1318-4a8d-bf90-1de75e5bcf46">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="240"/>
+	<parameter name="cod_capa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cod_empresa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    a.id AS Codigo,
+    a.nome_assunto AS Assunto,
+    a.nome_empresa AS Empresa,
+    a.nome_estabelecimento AS Estabelecimento,
+    a.dt_inicial AS 'Data Inicial',
+    a.dt_final AS 'Data Final',
+    b.razao_social AS Estabelecimento,
+    b.rua AS Endereço,
+    b.numero AS Numero,
+    b.bairro AS Bairro,
+    INSERT(INSERT(b.cep, 6, 0, '-'),
+        3,
+        0,
+        '.') AS CEP,
+    b.cidade AS Cidade,
+    b.uf AS UF,
+    b.inscricao_estadual AS 'Inscrição Estadual',
+    INSERT(INSERT(INSERT(INSERT(b.inscricao_federal, 13, 0, '-'),
+                9,
+                0,
+                '/'),
+            6,
+            0,
+            '.'),
+        3,
+        0,
+        '.') AS 'C.N.P.J.',
+    b.inscricao_municipal AS 'Inscrição Municipal'
+FROM
+    controladoria.cad_arquivo_capas a
+        LEFT JOIN
+    controladoria.cad_estabelecimentos b ON (b.id_empresa = a.id_empresa
+        AND b.id = a.id_estabelecimento)
+WHERE
+    a.id = $P{cod_capa}
+AND
+    a.id_empresa = $P{cod_empresa}]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.Integer"/>
+	<field name="Assunto" class="java.lang.String"/>
+	<field name="Empresa" class="java.lang.String"/>
+	<field name="Estabelecimento" class="java.lang.String"/>
+	<field name="Data Inicial" class="java.sql.Date"/>
+	<field name="Data Final" class="java.sql.Date"/>
+	<field name="Endereço" class="java.lang.String"/>
+	<field name="Numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Bairro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CEP" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cidade" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UF" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Inscrição Estadual" class="java.lang.String"/>
+	<field name="C.N.P.J." class="java.lang.String"/>
+	<field name="Inscrição Municipal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="358" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="525" height="22" uuid="646447bc-3f67-4bf2-94ff-02275c31e9e4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="55" width="525" height="53" uuid="3d187c63-e5e6-43f3-b78f-ffbe89ea7a94"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="30" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Estabelecimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="129" width="130" height="20" uuid="74068147-b4ae-481f-b0df-f2bb30de26d1"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="149" width="130" height="20" uuid="fbfcc099-9f89-4f1b-a819-40dd8bcd6ba1"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inscrição Estadual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="169" width="130" height="20" uuid="c9cfca32-7e29-4771-b54c-24ae21f01826"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inscrição Municipal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="189" width="130" height="20" uuid="103da33a-e46b-4b38-b370-7315dc276a5e"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="209" width="130" height="20" uuid="ebefa6f3-96a3-4e46-a8e8-4475afb756a1"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="209" width="35" height="20" uuid="16c59338-9c04-43b8-8109-d63da4beeaf7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="189" width="59" height="20" uuid="9911b82d-d3b8-4f9a-b4d3-0a0d253e7492"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="229" width="130" height="20" uuid="5e36e622-d47b-4f8d-b0ce-d521eed46b3b"/>
+				<textElement>
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="130" y="129" width="395" height="20" uuid="a05d8f56-e0d2-464d-addf-97b5ce29e1d9"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C.N.P.J.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="149" width="191" height="20" uuid="a05f42d4-987b-41f3-a34e-8404eeb535b0"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Inscrição Estadual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="189" width="272" height="20" uuid="f92d5404-f27d-4ca6-b6c4-64fe6e777507"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Endereço}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="189" width="53" height="20" uuid="b1fb904c-e971-486e-b53b-2e294de2e8b4"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="169" width="191" height="20" uuid="18d947f7-2914-41f3-b387-3f4c404b96bf"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Inscrição Municipal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="00.000-000">
+				<reportElement x="130" y="229" width="176" height="20" uuid="7867fb67-82ac-4e98-ae2e-a1bdc12b818c"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CEP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="209" width="295" height="20" uuid="795beeb5-aec2-41df-b71b-d36a473937a4"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="209" width="53" height="20" uuid="89757a6c-caa7-4a25-8545-abd60167e400"/>
+				<textElement>
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UF}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="37" width="525" height="1" uuid="36dc9e3d-0478-4344-a46f-9a797eb48e32"/>
+			</line>
+			<line>
+				<reportElement x="0" y="108" width="525" height="1" uuid="f0fbe9ea-49b1-427a-ae76-3c28eb0c4fd8"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="274" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="14" width="525" height="132" uuid="4f46ccfc-7ff3-4580-a956-0709b810b144"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="36" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Assunto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="176" width="37" height="36" uuid="6879665a-f830-45a6-9a71-2a15b2538c1e"/>
+				<textElement>
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[De]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="37" y="176" width="193" height="36" uuid="4aa70d1c-8c99-4d7f-aee9-d47bbfbee427"/>
+				<textElement>
+					<font fontName="Calibri" size="20" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Data Inicial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="230" y="176" width="48" height="36" uuid="60dbaad8-43b0-4031-a186-1880f5704a01"/>
+				<textElement>
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[até]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="278" y="176" width="194" height="36" uuid="e0fc79c0-704a-4cfc-aa15-6fc69a9fc47e"/>
+				<textElement>
+					<font fontName="Calibri" size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Data Final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="85" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="65" width="525" height="20" uuid="a52447df-6a1e-4ae3-b124-05fd96640f71"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat(" 'Emissão em' dd 'de' MMMM 'de' yyyy', às ' HH:mm").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="112" height="38" uuid="2a7a787b-48b4-4dc4-9668-15731a6d4914"/>
+				<textElement>
+					<font fontName="Calibri" size="24"/>
+				</textElement>
+				<text><![CDATA[Assunto nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="15" width="100" height="36" uuid="e426cbf7-75e0-4a25-bf8a-d1a55314e7dc"/>
+				<textElement>
+					<font fontName="Calibri" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="525" height="1" uuid="32109435-2eef-4266-b0be-2b0b39ec3010"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Etiquetas" language="groovy" columnCount="2" pageWidth="612" pageHeight="792" columnWidth="243" columnSpacing="36" leftMargin="45" rightMargin="45" topMargin="59" bottomMargin="59" uuid="b2b4a480-1c35-410b-909b-3270e7d05b4b">
+	<property name="ireport.zoom" value="2.3579476910000055"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="98"/>
+	<queryString>
+		<![CDATA[SELECT
+    *
+FROM
+   rel_arquivo_etqresumida]]>
+	</queryString>
+	<field name="nome_empresa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_empresa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_estabelecimento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_departamento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_departamento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_tipo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="completa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_estabelecimento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_impressao" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_etiqueta" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sequencia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_assunto_1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_inicial" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_final" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<sortField name="id_empresa"/>
+	<sortField name="id_departamento"/>
+	<sortField name="sequencia"/>
+	<group name="id_etiqueta">
+		<groupExpression><![CDATA[$F{id_etiqueta}]]></groupExpression>
+		<groupHeader>
+			<band height="59">
+				<textField>
+					<reportElement x="0" y="39" width="241" height="16" forecolor="#000000" uuid="42020d8d-10bf-4323-9c8b-b138bde50c55"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Calibri" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_assunto_1}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="1" y="38" width="240" height="1" forecolor="#666666" uuid="2cd79221-c5d3-4b58-8c5a-340dda1280bf"/>
+				</line>
+				<line>
+					<reportElement x="0" y="55" width="241" height="1" forecolor="#666666" uuid="40a712a6-d18c-427c-bb2b-20936d9be325"/>
+				</line>
+				<textField>
+					<reportElement x="0" y="15" width="241" height="19" forecolor="#666666" uuid="783d3f07-b40d-4035-9c67-9169266c16f7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Calibri" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_estabelecimento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="3" width="241" height="15" forecolor="#666666" uuid="1fc3f100-3017-48a5-be46-d681d056e6d6"/>
+					<textElement textAlignment="Center">
+						<font fontName="Calibri" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_empresa}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<textField>
+					<reportElement x="139" y="0" width="102" height="20" forecolor="#999999" uuid="e854037e-f1f4-4945-9cea-b48051e78c9a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Calibri" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Id "+$F{id_etiqueta}+"."+new java.text.SimpleDateFormat(" 'Emissão em' dd 'de' MMMM 'de' yyyy', às ' HH:mm").format(new Date())]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="139" height="20" uuid="c6020d4e-038e-4a32-9c93-7870dbfef23c"/>
+					<textElement textAlignment="Center" markup="none">
+						<font fontName="Calibri" size="12" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Arquivo Nº "+$F{sequencia}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="74">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="1" y="24" width="241" height="23" uuid="930e46bc-de85-4c3a-9542-cb5b6cf8d0ac"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["De "
++
+new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{data_inicial})
++
+" até "
++
+new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{data_final})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="58" width="241" height="16" forecolor="#999999" uuid="333a2b10-5e60-4e88-8916-c34859c8d31d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_departamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

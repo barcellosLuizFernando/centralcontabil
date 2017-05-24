@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Memorandos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="40bdd4ce-d3cc-4aeb-9bda-bf08e54eaed4">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="11"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT * FROM controladoria.notas_disponiveis;]]>
+	</queryString>
+	<field name="nome_terceiro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnpj_terceiro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_nf" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnpj_proprio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="natureza" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emissao" class="java.sql.Date"/>
+	<field name="quantidade3" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Terceiro" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{cnpj_terceiro}]]></groupExpression>
+		<groupHeader>
+			<band height="48">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="597" height="41" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="938dc92a-234b-4813-bda6-7290efb6e316"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="41" backcolor="#736343" uuid="0b36b43e-d028-4f23-a93a-ab4ad45754c9"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="68" y="0" width="413" height="24" forecolor="#736343" uuid="813d7b55-4f45-4a4e-bc78-9927f61a6b7d"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{nome_terceiro}]]></textFieldExpression>
+					</textField>
+					<textField pattern="###0">
+						<reportElement style="SubTitle" x="68" y="24" width="413" height="17" forecolor="#736343" uuid="a04d8438-7ef2-4fcb-9ef0-25f0ec164aca"/>
+						<textElement>
+							<font size="14" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{cnpj_terceiro}.substring(0, 2) + "." + $F{cnpj_terceiro}.substring(2, 5) + "." + $F{cnpj_terceiro}.substring(5, 8) + "/" + $F{cnpj_terceiro}.substring(8, 12) + "-" + $F{cnpj_terceiro}.substring(12, 14))]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="unidade">
+		<groupExpression><![CDATA[$F{cnpj_proprio}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement style="Detail" x="2" y="0" width="328" height="20" forecolor="#736343" uuid="e40399fa-b240-4dc3-abc8-438ede8301ec"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Unidade "+$F{cnpj_proprio}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="164" height="126" uuid="42ae3706-7882-4703-abdc-d8ba98339377"/>
+				<imageExpression><![CDATA["coffee.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="16301164-1d5c-494f-999f-6b90e4ece3b1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="45" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Memorandos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="219" y="62" width="196" height="22" uuid="7f1ef7e0-d3cd-4b37-bff2-b748917c9c99"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Notas sem Memorandos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="94" width="383" height="42" uuid="1b14e320-cc50-4aab-80bf-9f22460fe3bb"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Notas fiscais que foram emitidas, mas não foram informadas em
+Memorandos de Exportação. O prazo máximo para envio é de 180 dias.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="433" y="-115" width="267" height="209" uuid="684fc59c-3bae-4c0c-93fa-a87f71751b4f"/>
+				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="100" height="15" forecolor="#736343" uuid="17b1b1d7-09d6-4c59-9d28-4e39fab3e922"/>
+				<text><![CDATA[Nota Fiscal]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="a5ff17a1-1d5b-4a17-85a4-e2df1a7a6e57"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="101" y="0" width="188" height="15" forecolor="#736343" uuid="e6c5a9ac-f70c-40d3-8e57-9571a0cc96df"/>
+				<text><![CDATA[CNPJ Emissor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="289" y="0" width="100" height="15" forecolor="#736343" uuid="d8d412b7-2509-43ba-9d96-3fccdcde1c1a"/>
+				<text><![CDATA[Data Emissao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="389" y="0" width="100" height="15" forecolor="#736343" uuid="cbcd0f1c-f850-4bc3-b571-268884540009"/>
+				<text><![CDATA[Dias Faltantes]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="ade5296d-f776-4c3a-99ff-7565d13dc870"/>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement style="Detail" x="1" y="0" width="99" height="15" uuid="01879e80-6049-4b82-bb18-1c3c45293284"/>
+					<textFieldExpression><![CDATA[$F{numero_nf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement style="Detail" x="102" y="0" width="146" height="15" uuid="189eda0f-3458-4550-8660-48412638edc2"/>
+					<textFieldExpression><![CDATA[$F{cnpj_proprio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+					<reportElement style="Detail" x="289" y="0" width="99" height="15" uuid="b933dfdd-920f-4a90-8638-d6bbfed3fa84"/>
+					<textFieldExpression><![CDATA[$F{emissao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement style="Detail" x="390" y="0" width="99" height="15" uuid="ad8f3771-2616-4e12-bc1d-c8b3a94076e4"/>
+					<textFieldExpression><![CDATA[180 - (new java.util.Date() - $F{emissao})]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="0b21f4e7-2b86-4fa9-918b-1762e07a29d7"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="5afbbe6e-be6b-4696-a780-cff731c564ef"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="d1312184-cb99-4842-bd80-06451d9fbdc9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="e52e3f08-ce1d-4b9e-84ee-f0f18936ab6a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>
