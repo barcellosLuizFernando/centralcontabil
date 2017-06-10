@@ -4,25 +4,30 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT DISTINCT upper(a.produtor) as produtor, a.ie, a.cpf, a.endereco, a.municipio, a.uf_de_entrega, a.cep,
+		<![CDATA[SELECT DISTINCT upper(a.produtor) as produtor, a.ie,
+concat(repeat('0',11-length(a.cpf)),a.cpf) as cpf,
+a.endereco, a.municipio, a.uf_de_entrega, a.cep,
 b.id as procId,
 upper(b.nome) as procNome,
 b.nacionalidade as procNacionalidade,
 b.estado_civil as proc_EstadoCivil,
-b.inscricao_federal as procCPF,
+concat(repeat('0',11-length(b.inscricao_federal)),b.inscricao_federal) as procCPF,
 b.inscEst_rg as procRG,
 b.endereco as procEndereco,
 b.cidade as procCidade,
 b.cep as procCep,
 b.telefone as procTelefone,
-b.email as procEmail
-FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and a.id = 2 and b.id = 87;]]>
+b.email as procEmail,
+b.nro as procNro, b.uf as procUf
+FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and A.id = 2 AND B.ID = 2;]]>
 	</queryString>
 	<field name="produtor" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="ie" class="java.lang.Long"/>
-	<field name="cpf" class="java.lang.String"/>
+	<field name="ie" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="endereco" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -44,6 +49,8 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and a.id = 2 an
 	<field name="procCep" class="java.lang.Integer"/>
 	<field name="procTelefone" class="java.lang.Long"/>
 	<field name="procEmail" class="java.lang.String"/>
+	<field name="procNro" class="java.lang.String"/>
+	<field name="procUf" class="java.lang.String"/>
 	<pageHeader>
 		<band height="481" splitType="Stretch">
 			<staticText>
@@ -65,7 +72,8 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and a.id = 2 an
 				<textElement textAlignment="Justified">
 					<font fontName="Calibri" size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{produtor} + ", incrito no CPF/CNPJ sob nº " + $F{cpf}
+				<textFieldExpression><![CDATA[$F{produtor} + ", incrito no CPF/CNPJ sob nº "
++ ($F{cpf}.substring(0, 3) + "." + $F{cpf}.substring(3, 6) + "." + $F{cpf}.substring(6, 9) + "-" + $F{cpf}.substring(9, 11))
 + " e no Cadastro Estadual sob nº " + $F{ie}
 +", sediado a " + $F{endereco} + " na Cidade de "
 + $F{municipio}+"/"+$F{uf_de_entrega}+", CEP " + $F{cep}+";"]]></textFieldExpression>
@@ -83,10 +91,12 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and a.id = 2 an
 					<font fontName="Calibri" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{procNome} +", "+$F{procNacionalidade}+", "
-+$F{proc_EstadoCivil}+ ", incrito no CPF/CNPJ sob nº " + $F{procCPF}
++$F{proc_EstadoCivil}+ ", incrito no CPF/CNPJ sob nº "
++ (($F{procCPF}).substring(0, 3) + "." + ($F{procCPF}).substring(3, 6) + "." + ($F{procCPF}).substring(6, 9) + "-" + ($F{procCPF}).substring(9, 11))
 + " e no Registro Geral sob nº " + $F{procRG}
-+", sediado a " + $F{procEndereco} + " na Cidade de "
-+ $F{procCidade}+"/"+$F{uf_de_entrega}+", CEP " + $F{procCep}+";"]]></textFieldExpression>
++", sediado a " + $F{procEndereco} + ", " + $F{procNro}
++", na Cidade de "
++ $F{procCidade}+"/"+$F{procUf}+", CEP " + $F{procCep}+";"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="37" y="363" width="472" height="108" uuid="ba1ebf20-7d30-4ae0-a19d-3e9ff60ae34b"/>
@@ -96,7 +106,8 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and a.id = 2 an
 				<textFieldExpression><![CDATA["Representar o outorgante (contribuinte) junto à "
 +"Secretaria da Receita Estadual de Santa Catarina, "
 +"encaminhando requerimentos e retirando processos relativos a "
-+"solicitações de Créditos de ICMS, responsabilizando-se por "
++"solicitações de Créditos de ICMS, dando ciência e autorizando "
++"operações, responsabilizando-se por "
 +"todos os atos praticados no cumprimento deste instrumento, "
 +"cessando os efeitos deste após um ano da data "
 +"de assinatura da presente Procuração."]]></textFieldExpression>

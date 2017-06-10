@@ -5,8 +5,10 @@
  */
 package View;
 
+import java.awt.Dimension;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,9 +21,9 @@ public final class TelaInicial extends javax.swing.JFrame {
      * Creates new form TelaInicial
      */
     ConexaoMySQL cn = new ConexaoMySQL();
-
+    
     public static int usuariosys;
-
+    
     public TelaInicial() {
         initComponents();
         setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -56,10 +58,10 @@ public final class TelaInicial extends javax.swing.JFrame {
                 + "SELECT  'CADASTRADAS' AS TIPO, "
                 + "count(a.id) as QUANTIDADE "
                 + "from cad_notas_fiscais a ";
-
+        
         cn.conecta();
         cn.executeConsulta(sql);
-
+        
         try {
             while (cn.rs.next()) {
                 if (cn.rs.getString("TIPO").equals("MEMORANDOS")) {
@@ -68,17 +70,17 @@ public final class TelaInicial extends javax.swing.JFrame {
                     jTxtContNfP.setText(cn.rs.getString("QUANTIDADE"));
                 } else if (cn.rs.getString("TIPO").equals("CADASTRADAS")) {
                     jTxtContNfC.setText(cn.rs.getString("QUANTIDADE"));
-
+                    
                 }
             }
-
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, ex);
         }
         cn.desconecta();
-
+        
     }
-
+    
     public void ContagemArquivo() {
         String sql = "select 'CAPAS' as tipo, "
                 + "count(id) as qtd "
@@ -87,27 +89,27 @@ public final class TelaInicial extends javax.swing.JFrame {
                 + "select 'ETIQUETAS' as tipo, "
                 + "count(id) as qtd "
                 + "from cad_arquivo_pastas;";
-
+        
         cn.conecta();
         cn.executeConsulta(sql);
-
+        
         try {
             while (cn.rs.next()) {
                 if (cn.rs.getString("TIPO").equals("CAPAS")) {
                     jTxtContCapas.setText(cn.rs.getString("qtd"));
                 } else if (cn.rs.getString("TIPO").equals("ETIQUETAS")) {
                     jTxtContEtiquetas.setText(cn.rs.getString("qtd"));
-
+                    
                 }
             }
-
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, ex);
         }
         cn.desconecta();
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -186,6 +188,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMnConsultas = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -821,6 +824,15 @@ public final class TelaInicial extends javax.swing.JFrame {
         });
         jMnIcms.add(jMenuItem21);
 
+        jMenuItem28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem28.setText("Procuração");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMnIcms.add(jMenuItem28);
+
         jMenuItem20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem20.setText("Aceite do Crédito");
         jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
@@ -1107,7 +1119,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMniLimpraNfPropActionPerformed
 
     private void jBtnAtualizarResumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizarResumoActionPerformed
-
+        
         Contagem();        // TODO add your handling code here:
     }//GEN-LAST:event_jBtnAtualizarResumoActionPerformed
 
@@ -1255,7 +1267,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ops! Não foi possível abrir a tela de Empresas. " + e);
         }// TODO add your handling code here:
     }//GEN-LAST:event_jMniDepartamentosActionPerformed
-
+    
 
     private void jMniRelNFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMniRelNFActionPerformed
         try {
@@ -1335,7 +1347,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jBtnAtualizarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizarArquivoActionPerformed
-
+        
         ContagemArquivo();
 
 // TODO add your handling code here:
@@ -1561,10 +1573,10 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         ConexaoORCL cno = new ConexaoORCL();
-
+        
         cno.conecta();
         cno.desconecta();
-
+        
 
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
@@ -1668,6 +1680,10 @@ public final class TelaInicial extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMnConfiguracao3ActionPerformed
 
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        abreTelaInterna(new IcmsProcuracao());
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAtualizarArquivo;
@@ -1708,6 +1724,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -1778,7 +1795,7 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     public void controlaAcesso() {
         String grupo = "";
-
+        
         cn.conecta();
         cn.executeConsulta("SELECT grupo FROM cad_usuarios WHERE id = " + usuariosys + ";");
         try {
@@ -1790,7 +1807,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             System.exit(0);
         }
         cn.desconecta();
-
+        
         if ("2".equals(grupo)) {
             jMnEstabelecimentos.setEnabled(false);
             jMniCadastro.setEnabled(false);
@@ -1802,7 +1819,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMnIcms.setEnabled(false);
             jMnConsultas.setEnabled(false);
             jMnConfiguracao.setEnabled(false);
-
+            
             jMniTipos.setEnabled(false);
             jMniAssuntos.setEnabled(false);
             jMniDepartamentos.setEnabled(false);
@@ -1812,9 +1829,9 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMniExtracao.setEnabled(false);
             jMniDevolucao.setEnabled(false);
             jMniDescarte.setEnabled(false);
-
+            
             jMnUtilAssuntos.setEnabled(false);
-
+            
             jMniRelNF.setEnabled(false);
             jMniRelPaises.setEnabled(false);
             jMniRelCapas.setEnabled(false);
@@ -1830,7 +1847,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMnConsultas.setEnabled(false);
             jMnuArquivoMorto.setEnabled(false);
             jMnConfiguracao.setEnabled(false);
-
+            
             jMniTipos.setEnabled(false);
             jMniAssuntos.setEnabled(false);
             jMniDepartamentos.setEnabled(false);
@@ -1840,13 +1857,35 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMniExtracao.setEnabled(false);
             jMniDevolucao.setEnabled(false);
             jMniDescarte.setEnabled(false);
-
+            
             jMnUtilAssuntos.setEnabled(false);
-
+            
             jMniRelNF.setEnabled(false);
             jMniRelPaises.setEnabled(false);
             jMniRelCapas.setEnabled(false);
         }
-
+        
+    }
+    
+    private void abreTelaInterna(JInternalFrame tela) {
+        
+        try {
+            //PREPARAÇÃO PARA RECEBER INSTRUÇÕES PARA NAO ABRIR VÁRIAS JANELAS
+            if (false) {
+                tela.setSelected(true);
+            } else {
+                tela.setVisible(true);
+                jDPTelaPrincipal.add(tela);
+                tela.setSelected(true);
+                setPosicao(tela);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ops! Não foi possível abrir a tela '" + tela + "'. \nErro: " + e);
+        }
+    }
+    
+    private void setPosicao(JInternalFrame x) {
+        Dimension d = x.getDesktopPane().getSize();
+        x.setLocation((d.width - x.getSize().width) / 2, (d.height - x.getSize().height) / 2);
     }
 }
