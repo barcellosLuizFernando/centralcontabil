@@ -29,7 +29,7 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
     DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
 
     ConexaoMySQL cn = new ConexaoMySQL();
-    ConexaoFB fb = new ConexaoFB();   
+    ConexaoFB fb = new ConexaoFB();
 
     public void setPosicao() {
         Dimension d = this.getDesktopPane().getSize();
@@ -55,6 +55,8 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jBtnImportar = new javax.swing.JButton();
         jBtnCancelar = new javax.swing.JButton();
+
+        setTitle("Importação de Notas Fiscais");
 
         jBtnPesquisar.setText("Pesquisar");
         jBtnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -193,8 +195,6 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
                 + "`destino`,`uf_destino`,`nf_referenciada`) "
                 + " SELECT * FROM notas_fiscais_novas ";
 
-        
-
         cn.conecta();
         cn.executeAtualizacao("TRUNCATE tmp_cad_notas_fiscais;");
 
@@ -245,17 +245,16 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
             while (cn.rs.next()) {
                 registros = cn.rs.getString(1);
             }
+            cn.executeAtualizacao(sql3);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
+        } finally {
+            cn.desconecta();
+            fb.desconecta();
         }
-        cn.executeAtualizacao(sql3);
-        cn.desconecta();
-        fb.desconecta();
 
-        
         JOptionPane.showMessageDialog(this, registros + " notas importadas!");
-        
-        
+
 
     }//GEN-LAST:event_jBtnImportarActionPerformed
 
@@ -298,8 +297,8 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
                 + "left join cad_municipios md on (md.codigo=te.municipio) "
                 + "where (n.dt_emissao between '" + dti + "' and current_date) "
                 + "and (n.tipo_nf = 'S') and (n.cancelada != 'S' or n.cancelada is null) "
-                + "and(d.modelo_doc <> '55' or((d.modelo_doc = '55' and n.nfe_status = 'AU' ) )) "
-                + "and np.operacao = '2109' or np.operacao = '2112' "
+                + "and (d.modelo_doc <> '55' or((d.modelo_doc = '55' and n.nfe_status = 'AU' ) )) "
+                + "and (np.operacao = '2109' or np.operacao = '2112') "
                 + "union all "
                 + "select np.codigo as numero_nf, np.serie,np.quantidade,np.vlr_contabil_item as valor, "
                 + "n.dt_emissao as data_emissao,t.nome as nome_terceiro,t.cpf_cnpj as cnpj_terceiro, "
@@ -319,7 +318,8 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
                 + "and(n.tipo_nf = 'E') "
                 + "and(n.cancelada <> 'S' or n.cancelada is null) "
                 + "and(d.modelo_doc <> '55' or((d.modelo_doc = '55' and n.nfe_status = 'AU') )) "
-                + "and np.operacao = '6312'";
+                + "and np.operacao = '6312' "
+                + "ORDER BY 5;";
 
         fb.conecta();
         fb.executeConsulta(sql);
@@ -357,7 +357,7 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
                         fb.rs.getString(2),
                         fb.rs.getString(3),
                         fb.rs.getString(4),
-                        fb.rs.getString(5),
+                        dateIn.format(fb.rs.getDate(5)),
                         fb.rs.getString(6),
                         fb.rs.getString(7),
                         fb.rs.getString(8),
@@ -374,8 +374,10 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(this, "Erro ao consultar o banco de dados: " + ex);
+        } finally {
+            fb.desconecta();
+
         }
-        fb.desconecta();
     }
 
 }
