@@ -826,6 +826,7 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         jMenuItem28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem28.setText("Procuração");
+        jMenuItem28.setEnabled(false);
         jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem28ActionPerformed(evt);
@@ -1480,7 +1481,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        // TODO add your handling code here:
+        abreTelaInterna(new IcmsAceiteCredito());
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed

@@ -471,14 +471,17 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
             String idProc = jTxtIdProcurador.getText();
             String processo = jTable1.getValueAt(linha, 0).toString();
             String rel = "reports/ProcuracaoICMS.jasper";
+
             String sql = "SELECT DISTINCT upper(a.produtor) as produtor, a.ie, "
-                    + "concat(repeat(0,11-char_length(a.cpf)), a.cpf) as cpf, "
-                    + "a.endereco, a.municipio, a.uf_de_entrega, a.cep, b.id as procId, "
-                    + "upper(b.nome) as procNome, b.nacionalidade as procNacionalidade, "
-                    + "b.estado_civil as proc_EstadoCivil, concat(repeat(0,11-char_length(b.inscricao_federal)), b.inscricao_federal) as procCpf, "
-                    + "b.inscEst_rg as procRG, concat(b.endereco, ', nº ', b.nro, ' ', b.complemento) as procEndereco, "
-                    + "b.cidade as procCidade, b.cep as procCep, b.telefone as procTelefone, "
-                    + "b.email as procEmail "
+                    + "concat(repeat('0',11-length(a.cpf)),a.cpf) as cpf, "
+                    + "a.endereco, a.municipio, a.uf_de_entrega, a.cep, "
+                    + "b.id as procId, upper(b.nome) as procNome, "
+                    + "b.nacionalidade as procNacionalidade, "
+                    + "b.estado_civil as proc_EstadoCivil, "
+                    + "concat(repeat('0',11-length(b.inscricao_federal)),b.inscricao_federal) as procCPF, "
+                    + "b.inscEst_rg as procRG, b.endereco as procEndereco, b.cidade as procCidade, "
+                    + "b.cep as procCep, b.telefone as procTelefone, b.email as procEmail, "
+                    + "b.nro as procNro, b.uf as procUf "
                     + "FROM rel_icms_produtor a, cad_pessoas b "
                     + "WHERE a.id_produtor = '" + idProd + "' "
                     + "AND a.id = '" + processo + "' "
