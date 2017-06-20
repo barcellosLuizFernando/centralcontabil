@@ -206,6 +206,6 @@ public class IcmsProcessos {
         IcmsProcessos proc = new IcmsProcessos();
         proc.carregaDados("7");
         //proc.setDeferido(true);
-        proc.atualizaDados();
+        //proc.atualizaDados();
     }
 }
