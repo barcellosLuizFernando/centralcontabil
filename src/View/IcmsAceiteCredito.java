@@ -5,11 +5,17 @@
  */
 package View;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
+import ferramenta.IcmsProcessos;
 import ferramenta.JNumberFormatField99;
+import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,8 +26,11 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
 
     private int var_consulta;
     private String sql;
-    private ConexaoMySQL cn = new ConexaoMySQL();
+    private final ConexaoMySQL cn = new ConexaoMySQL();
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
+    private final DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
+    private final IcmsProcessos proc = new IcmsProcessos();
+    private boolean gravar;
 
     private Double vendas, credito, proporcao, aproveitado;
 
@@ -55,37 +64,37 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jTxtId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTxtNomeProdutor = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         try{
             javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("##/##/####");
-            jTextField3 = new javax.swing.JFormattedTextField(data);
+            jTxtDataEmissao = new javax.swing.JFormattedTextField(data);
             jButton1 = new javax.swing.JButton();
             jPanel2 = new javax.swing.JPanel();
-            jRadioButton1 = new javax.swing.JRadioButton();
-            jRadioButton2 = new javax.swing.JRadioButton();
-            jTextField4 = new javax.swing.JTextField();
+            jRbDeferido = new javax.swing.JRadioButton();
+            jRbIndeferido = new javax.swing.JRadioButton();
+            jTxtIE = new javax.swing.JTextField();
             jLabel4 = new javax.swing.JLabel();
             jLabel5 = new javax.swing.JLabel();
             jLabel6 = new javax.swing.JLabel();
-            jTextField5 = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+            jTxtCreditoSolicitado = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
             jPanel3 = new javax.swing.JPanel();
             jLabel7 = new javax.swing.JLabel();
-            jTextField6 = new javax.swing.JTextField();
-            jTextField7 = new javax.swing.JTextField();
+            jTxtInformacao = new javax.swing.JTextField();
+            jTxtProcesso = new javax.swing.JTextField();
             jLabel8 = new javax.swing.JLabel();
             jLabel9 = new javax.swing.JLabel();
-            jTextField8 = new javax.swing.JTextField();
+            jTxtDataAnalise = new javax.swing.JFormattedTextField(data);
             jLabel10 = new javax.swing.JLabel();
-            jTextField9 = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+            jTxtCreditoLiberado = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
             jLabel11 = new javax.swing.JLabel();
-            jTextField10 = new javax.swing.JFormattedTextField(data);
-            jTextField11 = new javax.swing.JFormattedTextField(data);
+            jTxtDtInicial = new javax.swing.JFormattedTextField(data);
+            jTxtDtFinal = new javax.swing.JFormattedTextField(data);
             jLabel12 = new javax.swing.JLabel();
             jLabel13 = new javax.swing.JLabel();
-            jTextField12 = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+            jTxtPercentual = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
             jLabel14 = new javax.swing.JLabel();
-            jTextField13 = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+            jTxtVendas = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
             jScrollPane1 = new javax.swing.JScrollPane();
             jTable1 = new javax.swing.JTable();
             jButton2 = new javax.swing.JButton();
@@ -96,7 +105,6 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
             jButton5 = new javax.swing.JButton();
             jPanel4 = new javax.swing.JPanel();
             jButton6 = new javax.swing.JButton();
-            jButton7 = new javax.swing.JButton();
             jButton8 = new javax.swing.JButton();
 
             jPesquisar.setTitle("Pesquisar");
@@ -190,18 +198,29 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
 
             jLabel1.setText("Código");
 
+            jTxtId.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    jTxtIdFocusLost(evt);
+                }
+            });
+
             jLabel2.setText("Produtor");
 
-            jTextField2.setEnabled(false);
+            jTxtNomeProdutor.setEnabled(false);
 
             jLabel3.setText("Data de Emissão");
 
         }
         catch (Exception e){
         }
-        jTextField3.setEnabled(false);
+        jTxtDataEmissao.setEnabled(false);
 
         jButton1.setText("...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,11 +235,11 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtNomeProdutor, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3))
+                .addComponent(jTxtDataEmissao))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,20 +247,20 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addComponent(jTxtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel2)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtNomeProdutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel3)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtDataEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButton1))
         );
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Deferido");
+        buttonGroup1.add(jRbDeferido);
+        jRbDeferido.setSelected(true);
+        jRbDeferido.setText("Deferido");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Indeferido");
+        buttonGroup1.add(jRbIndeferido);
+        jRbIndeferido.setText("Indeferido");
 
-        jTextField4.setEnabled(false);
+        jTxtIE.setEnabled(false);
 
         jLabel4.setText("Inscrição Estadual");
 
@@ -249,7 +268,7 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Crédito Solicitado");
 
-        jTextField5.setEnabled(false);
+        jTxtCreditoSolicitado.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -258,28 +277,28 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtIE, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtCreditoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jRadioButton1)
+                .addComponent(jRbDeferido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2))
+                .addComponent(jRbIndeferido))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jRadioButton1)
+                .addComponent(jRbDeferido)
                 .addComponent(jLabel4)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtIE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel6)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtCreditoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel5)
-                .addComponent(jRadioButton2))
+                .addComponent(jRbIndeferido))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Análise"));
@@ -357,35 +376,35 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtInformacao, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtDataAnalise, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtDtInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtDtFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField12)
+                        .addComponent(jTxtPercentual)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel14)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9)
-                    .addComponent(jTextField13)))
+                    .addComponent(jTxtCreditoLiberado)
+                    .addComponent(jTxtVendas)))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -408,23 +427,23 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtInformacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtDataAnalise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtCreditoLiberado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtDtInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtDtFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtPercentual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -446,8 +465,11 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         );
 
         jButton6.setText("Gravar");
-
-        jButton7.setText("Inserir");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Cancelar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -463,16 +485,14 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton6)
-            .addComponent(jButton7)
-            .addComponent(jButton8)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButton6)
+                .addComponent(jButton8))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -514,7 +534,7 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTxtPesquisa_MultiKeyReleased
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
-        incluiPesquisa(null);
+        incluiPesquisa();
         jPesquisar.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
@@ -541,6 +561,66 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         importaProdutos();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        var_consulta = 1;
+        jPesquisar.setVisible(true);
+        jTxtPesquisa_Multi.setText("");
+        montaLista();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTxtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtIdFocusLost
+        var_consulta = 11;
+        incluiPesquisa();
+    }//GEN-LAST:event_jTxtIdFocusLost
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Date data = null;
+        Double valor = 0.00;
+        try {
+            proc.setDeferido(jRbDeferido.isSelected());
+
+            if (jRbDeferido.isSelected()) {
+                valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
+                proc.setAproveitamento(valor);
+                proc.setNro_informacao(jTxtInformacao.getText());
+                proc.setNro_processo(jTxtProcesso.getText());
+
+                data = dateIn.parse(jTxtDataAnalise.getText());
+                proc.setDtAnalise(data);
+
+                valor = Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."));
+                proc.setCreditoLiberado(valor);
+
+                data = dateIn.parse(jTxtDtInicial.getText());
+                proc.setDtInicial(data);
+
+                data = dateIn.parse(jTxtDtFinal.getText());
+                proc.setDtFinal(data);
+
+                valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
+                proc.setAproveitamento(valor);
+
+                valor = Double.parseDouble(jTxtVendas.getText().replace(".", "").replace(",", "."));
+                proc.setVendas(valor);
+
+            }
+
+            if (proc.atualizaDados()) {
+                JOptionPane.showMessageDialog(this, "Processo atualizado com sucesso!");
+                limpaDados();
+            } else {
+                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o processo!");
+            }
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+
+        }
+
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -552,7 +632,6 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -574,28 +653,28 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JFrame jPesquisar;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRbDeferido;
+    private javax.swing.JRadioButton jRbIndeferido;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTblConsulta_Multi;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jTxtCreditoLiberado;
+    private javax.swing.JTextField jTxtCreditoSolicitado;
+    private javax.swing.JTextField jTxtDataAnalise;
+    private javax.swing.JTextField jTxtDataEmissao;
+    private javax.swing.JTextField jTxtDtFinal;
+    private javax.swing.JTextField jTxtDtInicial;
+    private javax.swing.JTextField jTxtIE;
     private javax.swing.JTextField jTxtId;
+    private javax.swing.JTextField jTxtInformacao;
+    private javax.swing.JTextField jTxtNomeProdutor;
+    private javax.swing.JTextField jTxtPercentual;
     private javax.swing.JTextField jTxtPesquisa_Multi;
+    private javax.swing.JTextField jTxtProcesso;
+    private javax.swing.JTextField jTxtVendas;
     // End of variables declaration//GEN-END:variables
 
     private DefaultTableModel montaTblProdutos() {
@@ -637,6 +716,22 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         jTable2.getColumnModel().getColumn(0).setMinWidth(0);
         jTable2.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
         jTable2.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+        jTable2.getColumnModel().getColumn(2).setMaxWidth(80);
+        jTable2.getColumnModel().getColumn(2).setMinWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(2).setMinWidth(80);
+        jTable2.getColumnModel().getColumn(3).setMaxWidth(80);
+        jTable2.getColumnModel().getColumn(3).setMinWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(3).setMinWidth(80);
+        jTable2.getColumnModel().getColumn(4).setMaxWidth(80);
+        jTable2.getColumnModel().getColumn(4).setMinWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(80);
+        jTable2.getTableHeader().getColumnModel().getColumn(4).setMinWidth(80);
+        jTable2.getColumnModel().getColumn(5).setMaxWidth(50);
+        jTable2.getColumnModel().getColumn(5).setMinWidth(50);
+        jTable2.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(50);
+        jTable2.getTableHeader().getColumnModel().getColumn(5).setMinWidth(50);
 
         return lista;
     }
@@ -651,7 +746,38 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         switch (var_consulta) {
 
             case 1:
+                lista.addColumn("Id");
+                lista.addColumn("Nome");
+                lista.addColumn("Processo");
 
+                jTblConsulta_Multi.getColumnModel().getColumn(0).setMaxWidth(60);
+                jTblConsulta_Multi.getColumnModel().getColumn(0).setMinWidth(60);
+                jTblConsulta_Multi.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(60);
+                jTblConsulta_Multi.getTableHeader().getColumnModel().getColumn(0).setMinWidth(60);
+
+                sql = "SELECT a.id, b.nome, c.inscri_est, "
+                        + "a.dt_inicio_processo FROM produtor_icms a "
+                        + "left join cad_pessoas b on (b.id = a.id_produtor) "
+                        + "left join icms_estabelecimentos c on (c.id = a.id_estabelecimento) "
+                        + " ORDER BY b.nome";
+                if (cn.conecta()) {
+                    try {
+                        cn.executeConsulta(sql);
+                        while (cn.rs.next()) {
+
+                            lista.addRow(new String[]{
+                                cn.rs.getString("id"),
+                                cn.rs.getString("nome"),
+                                "Processo da I.E. " + cn.rs.getString("inscri_est") + " iniciado em " + dateIn.format(cn.rs.getDate("dt_inicio_processo"))
+                            });
+                        }
+                    } catch (SQLException ex) {
+
+                        JOptionPane.showMessageDialog(null, "Erro ao consultar o banco de dados: " + ex);
+                    } finally {
+                        cn.desconecta();
+                    }
+                }
                 break;
 
             case 2:
@@ -684,11 +810,27 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
 
     }
 
-    private void incluiPesquisa(DefaultTableModel x) {
+    private void incluiPesquisa() {
         int linha = jTblConsulta_Multi.getSelectedRow();
 
         switch (var_consulta) {
             case 1:
+
+                jTxtId.setText(jTblConsulta_Multi.getValueAt(linha, 0).toString());
+
+            case 11:
+                String id = jTxtId.getText();
+                proc.carregaDados(id);
+                jTxtNomeProdutor.setText(proc.getNomeProdutor());
+                jTxtDataEmissao.setText(dateIn.format(proc.getDtEmissao()));
+                jTxtIE.setText(proc.getInscricaoEstadual());
+                jTxtCreditoSolicitado.setText(df.format(proc.getCreditoSolicitado()).replace(".", "").replace(",", ""));
+                if (proc.isDeferido()) {
+                    jRbDeferido.setSelected(true);
+                } else {
+                    jRbIndeferido.setSelected(true);
+                }
+                gravar = proc.isAnalisado();
 
                 break;
 
@@ -733,7 +875,7 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                 try {
                     cn.executeConsulta(sql);
                     while (cn.rs.next()) {
-                        
+
                         String notaFiscal = cn.rs.getString("nro_nf");
 
                         Double vlr_credito = 0.00;
@@ -766,5 +908,9 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Importação cancelada!\nA tabela de notas fiscais não será alterada.", "Importação de notas", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    private void limpaDados() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
