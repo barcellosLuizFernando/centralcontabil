@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AceiteICMS" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="395" leftMargin="100" rightMargin="100" topMargin="20" bottomMargin="20" uuid="eb829c9a-566f-4867-a65b-4ec1a4a81908">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="45"/>
+	<import value="ferramentas.Extenso"/>
+	<queryString>
+		<![CDATA[SELECT a.id,
+a.id_produtor,
+a.id_estabelecimento,
+a.dt_inicio_processo,
+-- b.tipo_produto,
+round(sum(b.valor_credito),1) as credito,
+c.nome as produtor,
+concat(repeat('0',9-length(d.inscri_est)),d.inscri_est) as inscri_est,
+concat(repeat('0',11-length(c.inscricao_federal)),c.inscricao_federal) as cpf,
+a.credito_liberado,
+a.deferido,
+a.dt_analise,
+a.dt_inicial,
+a.dt_final,
+a.informacao,
+a.percentual_aproveitado,
+a.processo,
+a.vendas
+FROM controladoria.produtor_icms a
+LEFT JOIN controladoria.produtor_icms_notas b on (b.id = a.id)
+LEFT JOIN controladoria.cad_pessoas c on (c.id = a.id_produtor)
+LEFT JOIN controladoria.icms_estabelecimentos d on (d.id = a.id_estabelecimento)
+WHERE a.deferido = 1
+group by a.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_produtor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_estabelecimento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dt_inicio_processo" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="credito" class="java.lang.Double"/>
+	<field name="produtor" class="java.lang.String"/>
+	<field name="inscri_est" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cpf" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="credito_liberado" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="deferido" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dt_analise" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dt_inicial" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dt_final" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="informacao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="percentual_aproveitado" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="processo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendas" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="41" width="395" height="20" uuid="4b16509e-1397-426e-8b31-e9f417c03ec4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="467" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="395" height="235" uuid="7a2a0020-cd7a-4bd3-a479-3d49394698ca"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="12"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["       A COOPERATIVA AGROPECUÁRIA TRADIÇÃO, estabelecida em Palma Sola, "
++"Estado de Santa Catarina, sediada à Rod SC 471, km 15, devidamente inscrita "
++"no CNPJ sob n° 05.528.196/0011-87 e no cadastro de contribuintes do ICMS sob n° 255.951.817, "
++"neste ato representada por seu diretor Vice-Presidente, GELSON CORREA, brasileiro, solteiro, portador do RG nº 138062309 SSP/PR e inscrito no CPF sob nº 569.083.699-00, "
++"declara para os devidos fins que se fizerem necessários que "
++"aceita o credito de ICMS no valor de R\$ "
++new DecimalFormat("#,##0.00").format($F{credito_liberado}) + " (" + new Extenso(new BigDecimal($F{credito_liberado}))
++"), pertencente ao produtor rural "
++$F{produtor}.toUpperCase()+", inscrito no cadastro de contribuintes do ICMS sob n° "+ ($F{inscri_est}.substring(0, 2) + "." + $F{inscri_est}.substring(2, 5) + "." + $F{inscri_est}.substring(5, 8) + "-" + $F{inscri_est}.substring(8, 9))
++", referente ao processo de n° SEF " + $F{processo} + ", "
++"conforme previsto no Art. 40, § 1º do RICMS/SC-01"
++"\n\n        Sendo verdade, firmamos a presente declaração."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="260" width="303" height="20" uuid="3b3d1a40-4b64-468e-be59-b4338f335748"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Palma Sola/SC, " + new SimpleDateFormat("dd ' de ' MMMM ' de ' yyyy ").format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="366" width="199" height="69" uuid="677edd00-4137-4304-b7d8-330cc171d2af"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["__________________________\n"
++ $F{produtor}
++"\nCPF: " + ($F{cpf}.substring(0, 3) + "." + $F{cpf}.substring(3, 6) + "." + $F{cpf}.substring(6, 9) + "-" + $F{cpf}.substring(9, 11))
++ "\nInscr. Est.: " + ($F{inscri_est}.substring(0, 2) + "." + $F{inscri_est}.substring(2, 5) + "." + $F{inscri_est}.substring(5, 8) + "-" + $F{inscri_est}.substring(8, 9))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="366" width="196" height="69" uuid="80e1a9bc-2c87-450d-855f-1573182339e3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["______________________________\n"
++"Cooperativa Agropecuária Tradição"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

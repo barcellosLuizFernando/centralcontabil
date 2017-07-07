@@ -298,7 +298,7 @@ public class Importar_Automatico extends javax.swing.JInternalFrame {
                 + "where (n.dt_emissao between '" + dti + "' and current_date) "
                 + "and (n.tipo_nf = 'S') and (n.cancelada != 'S' or n.cancelada is null) "
                 + "and (d.modelo_doc <> '55' or((d.modelo_doc = '55' and n.nfe_status = 'AU' ) )) "
-                + "and (np.operacao = '2109' or np.operacao = '2112') "
+                + "and ((np.operacao = '2109' or np.operacao = '2112') or (np.operacao = '2104' and n.cliente = '1688')) "
                 + "union all "
                 + "select np.codigo as numero_nf, np.serie,np.quantidade,np.vlr_contabil_item as valor, "
                 + "n.dt_emissao as data_emissao,t.nome as nome_terceiro,t.cpf_cnpj as cnpj_terceiro, "

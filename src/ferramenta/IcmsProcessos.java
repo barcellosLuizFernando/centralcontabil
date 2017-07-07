@@ -5,6 +5,7 @@
  */
 package ferramenta;
 
+import com.sun.scenario.effect.AbstractShadow;
 import conexoes.ConexaoMySQL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -174,15 +175,15 @@ public class IcmsProcessos {
 
         if (cn.conecta()) {
             try {
-                sql = "UPDATE produtor_icms SET deferido = " + deferido + " "
+                sql = "UPDATE produtor_icms SET deferido = " + deferido + ", "
+                        + "informacao = '" + nro_informacao + "', "
+                        + "processo = '" + nro_processo + "', "
+                        + "dt_analise = '" + dateOut.format(dtAnalise) + "' "
                         + "WHERE id = " + codigo + ";";
                 resposta = cn.executeAtualizacao(sql);
 
                 if (deferido) {
-                    sql = "UPDATE produtor_icms SET informacao = '" + nro_informacao + "', "
-                            + "processo = '" + nro_processo + "', "
-                            + "dt_analise = '" + dateOut.format(dtAnalise) + "', "
-                            + "credito_liberado = '" + creditoLiberado + "', "
+                    sql = "UPDATE produtor_icms SET credito_liberado = '" + creditoLiberado + "', "
                             + "dt_inicial = '" + dateOut.format(dtInicial) + "', "
                             + "dt_final = '" + dateOut.format(dtFinal) + "', "
                             + "percentual_aproveitado = '" + aproveitamento + "', "
@@ -202,10 +203,88 @@ public class IcmsProcessos {
         return resposta;
     }
 
+    public boolean gravaVendas(boolean del, String x) {
+        boolean resposta = false;
+
+        if (cn.conecta()) {
+            try {
+                if (del) {
+                    sql = "DELETE FROM produtor_icms_vendas WHERE id = '" + codigo + "';";
+                    resposta = cn.executeAtualizacao(sql);
+                }
+
+                if (x != null) {
+                    sql = "INSERT INTO produtor_icms_vendas (id,produto,valor) VALUES " + x;
+                    resposta = cn.executeAtualizacao(sql);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
+                cn.desconecta();
+            }
+        }
+        return resposta;
+    }
+
+    private boolean gravaCompras(String nf, String vlr_credito, String vlr_liberado, String percentual) {
+        boolean resposta = false;
+
+        sql = "UPDATE produtor_icms_notas SET vlr_credito = '" + vlr_credito.replace(".", "").replace(",", ".") + "', "
+                + "vlr_liberado = '" + vlr_liberado.replace(".", "").replace(",", ".") + "', "
+                + "percentual = '" + percentual.replace(".", "").replace(",", ".") + "' "
+                + "WHERE id = '" + codigo + "' AND nro_nf = '" + nf + "';";
+        if (cn.conecta()) {
+            try {
+                resposta = cn.executeAtualizacao(sql);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
+                cn.desconecta();
+            }
+        }
+
+        return resposta;
+    }
+
+    public boolean gravaCompras(boolean x, String nf, String vlr_credito, String vlr_liberado, String percentual) {
+        boolean resposta = false;
+
+        if (x) {
+            sql = "UPDATE produtor_icms_notas SET vlr_credito = null, "
+                    + "vlr_liberado = null, "
+                    + "percentual = null "
+                    + "WHERE id = '" + codigo + "';";
+            if (cn.conecta()) {
+                try {
+                    resposta = cn.executeAtualizacao(sql);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                } finally {
+                    cn.desconecta();
+                }
+            }
+        } else {
+            resposta = true;
+        }
+
+        if (resposta) {
+            resposta = gravaCompras(nf, vlr_credito, vlr_liberado, percentual);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi possível preparar as notas para atualização.");
+        }
+
+        return resposta;
+    }
+
     public static void main(String[] args) {
         IcmsProcessos proc = new IcmsProcessos();
-        proc.carregaDados("7");
+        //proc.carregaDados("7");
         //proc.setDeferido(true);
         //proc.atualizaDados();
+
+        //proc.gravaVendas("('2','1','1234.22')");
+        //proc.codigo = "2";
+        //proc.gravaCompras(false, "2311", "123,42", "5345,34", "54,00");
     }
 }

@@ -207,6 +207,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
         jMnUtilitários = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMnTabelas = new javax.swing.JMenu();
@@ -957,6 +958,15 @@ public final class TelaInicial extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem27);
 
+        jMenuItem29.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem29.setText("Aceite ICMS");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem29);
+
         jMenuBar1.add(jMenu3);
 
         jMnUtilitários.setText("Utilitários");
@@ -1685,6 +1695,10 @@ public final class TelaInicial extends javax.swing.JFrame {
         abreTelaInterna(new IcmsProcuracao());
     }//GEN-LAST:event_jMenuItem28ActionPerformed
 
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        abreTelaInterna(new RelAceiteIcms());        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAtualizarArquivo;
@@ -1726,6 +1740,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

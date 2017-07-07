@@ -5,4 +5,7 @@
     <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/NFeStatusServico3-wsdl/catalog/NFeStatusServico3.wsdl" uri="xml-resources/web-service-references/NFeStatusServico3/wsdl/NFeStatusServico3.wsdl"/>
     <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/NfeDownloadNFe-wsdl/catalog/NfeDownloadNFe.wsdl" uri="xml-resources/web-service-references/NfeDownloadNFe/wsdl/NfeDownloadNFe.wsdl"/>
     <system systemId="file:/C:/Users/luiz.barcellos/AppData/Roaming/NetBeans/8.1/config/WebServices/CadConsultaCadastro2-wsdl/catalog/CadConsultaCadastro2.wsdl" uri="xml-resources/web-service-references/CadConsultaCadastro2/wsdl/CadConsultaCadastro2.wsdl"/>
+    <system systemId="file:/D:/Projetos/CentralContabil/../PL_009_V4/leiauteNFe_v4.00.xsd" uri="xml-resources/jaxb/SchemaNFe/leiauteNFe_v4.00.xsd"/>
+    <system systemId="file:/D:/Projetos/PL_009_V4/xmldsig-core-schema_v1.01.xsd" uri="xml-resources/jaxb/SchemaNFe/xmldsig-core-schema_v1.01.xsd"/>
+    <system systemId="file:/D:/Projetos/PL_009_V4/tiposBasico_v4.00.xsd" uri="xml-resources/jaxb/SchemaNFe/tiposBasico_v4.00.xsd"/>
 </catalog>

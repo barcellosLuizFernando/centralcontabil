@@ -5,6 +5,7 @@
  */
 package View;
 
+import ferramenta.ColorRender;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,9 +17,13 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -54,6 +59,8 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
     NumberFormat valorOutTotal = new DecimalFormat("###,###,##0.##", new DecimalFormatSymbols(new Locale("en", "US")));
     NumberFormat valorOutUnitario = new DecimalFormat("###,###,##0.00", new DecimalFormatSymbols(new Locale("en", "US")));
     NumberFormat valorIn = new DecimalFormat("###,###,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
+
+    private DecimalFormat df = new DecimalFormat("#,##0.00");
 
     public void setPosicao() {
         Dimension d = this.getDesktopPane().getSize();
@@ -491,7 +498,7 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
                 jCBProduto.setSelectedItem(jTblMemorandos.getValueAt(linha, 7).toString());
                 jTxtQtd.setText(jTblMemorandos.getValueAt(linha, 8).toString());
                 jTxtUnd.setText(jTblMemorandos.getValueAt(linha, 9).toString());
-                jTxtVlrT.setText(jTblMemorandos.getValueAt(linha, 10).toString());
+                jTxtVlrT.setText(jTblMemorandos.getValueAt(linha, 10).toString().replace(".", ""));
                 jTxtValorUn.setText(jTblMemorandos.getValueAt(linha, 11).toString());
                 jTxtIdPaisDestino.setText(jTblMemorandos.getValueAt(linha, 12).toString());
                 jTxtNomePaisDestino.setText(jTblMemorandos.getValueAt(linha, 13).toString());
@@ -569,6 +576,8 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
             lista_m.addColumn("id_porto");
             lista_m.addColumn("nome_porto");
 
+            jTblMemorandos.setDefaultRenderer(Object.class, new ColorRender());
+
             try {
                 while (cn.rs.next()) {
 
@@ -584,7 +593,7 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
                             cn.rs.getString("produto"),
                             cn.rs.getString("quantidade").replace(".", ","),
                             cn.rs.getString("unidade"),
-                            cn.rs.getString("valor_total").replace(".", ","),
+                            df.format(cn.rs.getDouble("valor_total")),
                             cn.rs.getString("valor_unitario").replace(".", ","),
                             cn.rs.getString("id_pais_destino"),
                             cn.rs.getString("nome_pais_destino"),
@@ -1006,6 +1015,7 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
         jPnlStatus = new javax.swing.JPanel();
         jLblIdMem = new javax.swing.JLabel();
         jLblStatus = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         jPesquisar.setTitle("Pesquisar");
         jPesquisar.setMinimumSize(new java.awt.Dimension(700, 400));
@@ -1255,14 +1265,14 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
         jBtnPesquisaPorto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jBtnPesquisaPorto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/zoom.png"))); // NOI18N
         jBtnPesquisaPorto.setEnabled(false);
-        jBtnPesquisaPorto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnPesquisaPortoActionPerformed(evt);
-            }
-        });
         jBtnPesquisaPorto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jBtnPesquisaPortoFocusLost(evt);
+            }
+        });
+        jBtnPesquisaPorto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPesquisaPortoActionPerformed(evt);
             }
         });
 
@@ -1798,6 +1808,12 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
 
         jLblIdMem.setForeground(new java.awt.Color(240, 240, 240));
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPnlStatusLayout = new javax.swing.GroupLayout(jPnlStatus);
         jPnlStatus.setLayout(jPnlStatusLayout);
         jPnlStatusLayout.setHorizontalGroup(
@@ -1810,11 +1826,14 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jTextField1)
         );
         jPnlStatusLayout.setVerticalGroup(
             jPnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnlStatusLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLblIdMem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1976,7 +1995,7 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
             String id_porto = jTxtIdPortoEmbarque.getText();
             String nome_porto = jTxtNomePortoEmbarque.getText();
             int usuario = TelaInicial.usuariosys;
-            
+
             if ("INCLUINDO".equals(jLblStatus.getText())) {
                 String sql = "INSERT INTO CAD_MEMORANDOS (id_exportador, nome_exportador, "
                         + "numero_memorando, data_emissao, numero_despacho, numero_registro, "
@@ -2235,6 +2254,23 @@ SomaNotas();    }//GEN-LAST:event_jTblRemessaMouseClicked
 
     }//GEN-LAST:event_jBtnPesquisaPortoFocusLost
 
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        DefaultTableModel tabela_clientes = (DefaultTableModel) jTblMemorandos.getModel();
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tabela_clientes);
+        jTblMemorandos.setRowSorter(sorter);
+        String text = jTextField1.getText();
+        if (text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                sorter.setRowFilter(
+                        RowFilter.regexFilter(text));
+            } catch (PatternSyntaxException pse) {
+                System.err.println("Erro");
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPnlNotasFiscais;
@@ -2298,6 +2334,7 @@ SomaNotas();    }//GEN-LAST:event_jTblRemessaMouseClicked
     private javax.swing.JTable jTblConsulta_Multi;
     private javax.swing.JTable jTblMemorandos;
     private javax.swing.JTable jTblRemessa;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTxtCNPJProprio;
     private javax.swing.JTextField jTxtCnpjExp;
     private javax.swing.JTextField jTxtConfereQtd;

@@ -5,6 +5,7 @@
  */
 package View;
 
+import ferramenta.ColorRender;
 import ferramenta.IcmsProcessos;
 import ferramenta.JNumberFormatField99;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
     private final DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
     private final IcmsProcessos proc = new IcmsProcessos();
+    public static final double tolerancia = 0.000001;
     private boolean gravar;
 
     private Double vendas = 0.00, credito = 0.00, proporcao = 0.00, aproveitado = 0.00;
@@ -342,6 +344,11 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("(-)");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Limpar");
 
@@ -558,7 +565,7 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        importaProdutos();
+        importaCompras();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -574,69 +581,124 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTxtIdFocusLost
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        boolean resposta = credito == Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."));
+        vendas = 0.00;
+        credito = 0.00;
+
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            vendas += Double.parseDouble(jTable1.getValueAt(i, 2).toString().replace(".", "").replace(",", "."));
+        }
+        for (int ii = 0; ii < jTable2.getRowCount(); ii++) {
+            credito += Double.parseDouble(jTable2.getValueAt(ii, 4).toString().replace(".", "").replace(",", "."));
+        }
+
+        System.out.println("Diferença do Crédito: " + (credito - Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."))));
+
+        boolean resposta = Math.round(credito) == Math.round(Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", ".")));
         System.out.println("Resposta do crédito: " + resposta);
 
         if (resposta) {
-            resposta = vendas == Double.parseDouble(jTxtVendas.getText().replace(".", "").replace(",", "."));
-        System.out.println("Resposta das vendas: " + resposta);
-            
-            if(resposta){
+            resposta = vendas.equals(Double.parseDouble(jTxtVendas.getText().replace(".", "").replace(",", ".")));
+            System.out.println("Resposta das vendas: " + resposta);
+
+            if (resposta) {
                 // INSIRA OUTRAS VALIDAÇÕES AQUI
             } else {
                 JOptionPane.showMessageDialog(null, "Valor da venda total difere da venda calculada nos produtos."
-                    + "\nVenda total: " + jTxtVendas.getText() + ""
-                    + "\nCrédito informado: " + df.format(vendas));
+                        + "\nVenda total: " + jTxtVendas.getText() + ""
+                        + "\nCrédito informado: " + df.format(vendas));
             }
-            
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Valor do crédito total difere do crédito calculado nas notas."
-                    + "\nCrédito total: " + jTxtCreditoLiberado.getText() + ""
+                    + "\nCrédito total: " + df.format(Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."))) + ""
                     + "\nCrédito informado: " + df.format(credito));
         }
-        
-        
 
         if (resposta) {
             Date data = null;
             Double valor = 0.00;
             try {
                 proc.setDeferido(jRbDeferido.isSelected());
+                proc.setNro_informacao(jTxtInformacao.getText());
+                proc.setNro_processo(jTxtProcesso.getText());
+
+                data = dateIn.parse(jTxtDataAnalise.getText());
+                proc.setDtAnalise(data);
 
                 if (jRbDeferido.isSelected()) {
-                    valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
-                    proc.setAproveitamento(valor);
-                    proc.setNro_informacao(jTxtInformacao.getText());
-                    proc.setNro_processo(jTxtProcesso.getText());
 
-                    data = dateIn.parse(jTxtDataAnalise.getText());
-                    proc.setDtAnalise(data);
+                    if (jTable1.getRowCount() > 0 && jTable2.getRowCount() > 0) {
 
-                    valor = Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."));
-                    proc.setCreditoLiberado(valor);
+                        valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
+                        proc.setAproveitamento(valor);
 
-                    data = dateIn.parse(jTxtDtInicial.getText());
-                    proc.setDtInicial(data);
+                        valor = Double.parseDouble(jTxtCreditoLiberado.getText().replace(".", "").replace(",", "."));
+                        proc.setCreditoLiberado(valor);
 
-                    data = dateIn.parse(jTxtDtFinal.getText());
-                    proc.setDtFinal(data);
+                        data = dateIn.parse(jTxtDtInicial.getText());
+                        proc.setDtInicial(data);
 
-                    valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
-                    proc.setAproveitamento(valor);
+                        data = dateIn.parse(jTxtDtFinal.getText());
+                        proc.setDtFinal(data);
 
-                    valor = Double.parseDouble(jTxtVendas.getText().replace(".", "").replace(",", "."));
-                    proc.setVendas(valor);
+                        valor = Double.parseDouble(jTxtPercentual.getText().replace(".", "").replace(",", "."));
+                        proc.setAproveitamento(valor);
 
-                }
+                        valor = Double.parseDouble(jTxtVendas.getText().replace(".", "").replace(",", "."));
+                        proc.setVendas(valor);
 
-                if (proc.atualizaDados()) {
-                    JOptionPane.showMessageDialog(this, "Processo atualizado com sucesso!");
-                    limpaDados();
+                        //INSERE VENDAS
+                        for (int x = 0; x < jTable1.getRowCount(); x++) {
+
+                            String idVenda, produtoVenda, valorVenda;
+                            idVenda = jTxtId.getText();
+                            produtoVenda = jTable1.getValueAt(x, 0).toString();
+                            valorVenda = jTable1.getValueAt(x, 2).toString().replace(".", "").replace(",", ".");
+
+                            if (x == 0) {
+                                resposta = proc.gravaVendas(true, "('" + idVenda + "','" + produtoVenda + "','" + valorVenda + "')");
+                            } else {
+                                resposta = proc.gravaVendas(false, "('" + idVenda + "','" + produtoVenda + "','" + valorVenda + "')");
+                            }
+
+                        }
+
+                        //INSERE COMPRAS
+                        for (int y = 0; y < jTable2.getRowCount(); y++) {
+                            String nfCompra, creditoCompra, liberadoCompra, percentualCompra;
+
+                            nfCompra = jTable2.getValueAt(y, 2).toString();
+                            creditoCompra = jTable2.getValueAt(y, 3).toString();
+                            liberadoCompra = jTable2.getValueAt(y, 4).toString();
+                            percentualCompra = jTable2.getValueAt(y, 5).toString();
+
+                            if (y == 0) {
+                                resposta = proc.gravaCompras(true, nfCompra, creditoCompra, liberadoCompra, percentualCompra);
+                            } else {
+                                resposta = proc.gravaCompras(false, nfCompra, creditoCompra, liberadoCompra, percentualCompra);
+                            }
+
+                        }
+
+                        if (resposta) {
+                            if (proc.atualizaDados()) {
+                                JOptionPane.showMessageDialog(this, "Processo atualizado com sucesso!");
+                                limpaCampos();
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o processo!");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Tabela de Vendas ou Tabela de Compras não estão preenchidas.");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Não foi possível atualizar o processo!");
+                    if (proc.atualizaDados()) {
+                        JOptionPane.showMessageDialog(this, "Processo atualizado com sucesso!");
+                        limpaCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Não foi possível atualizar o processo!");
+                    }
                 }
-
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(null, ex);
             } finally {
@@ -646,6 +708,14 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
+        int linha = jTable1.getSelectedRow();
+
+        lista.removeRow(linha);
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -722,6 +792,8 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         jTable1.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(90);
         jTable1.getTableHeader().getColumnModel().getColumn(2).setMinWidth(90);
 
+        jTable1.setDefaultRenderer(Object.class, new ColorRender());
+        
         return lista;
     }
 
@@ -758,6 +830,8 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         jTable2.getColumnModel().getColumn(5).setMinWidth(50);
         jTable2.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(50);
         jTable2.getTableHeader().getColumnModel().getColumn(5).setMinWidth(50);
+        
+        jTable2.setDefaultRenderer(Object.class, new ColorRender());
 
         return lista;
     }
@@ -856,7 +930,28 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                 } else {
                     jRbIndeferido.setSelected(true);
                 }
+                jTxtProcesso.setText(proc.getNro_processo());
+                jTxtInformacao.setText(proc.getNro_informacao());
+                try {
+                    jTxtDataAnalise.setText(dateIn.format(proc.getDtAnalise()));
+                    jTxtDtInicial.setText(dateIn.format(proc.getDtInicial()));
+                    jTxtDtFinal.setText(dateIn.format(proc.getDtFinal()));
+                } catch (Exception e) {
+                    jTxtDataAnalise.setText("  /  /    ");
+                    jTxtDtInicial.setText("  /  /    ");
+                    jTxtDtFinal.setText("  /  /    ");
+                }
+                jTxtCreditoLiberado.setText((df.format(proc.getCreditoLiberado())).replace(".", "").replace(",", ""));
+                jTxtPercentual.setText((df.format(proc.getAproveitamento())).replace(".", "").replace(",", ""));
+                jTxtVendas.setText((df.format(proc.getVendas())).replace(".", "").replace(",", ""));
                 gravar = proc.isAnalisado();
+
+                montaTblNotas();
+                montaTblProdutos();
+                if (proc.isAnalisado()) {
+                    importaCompras();
+                    importaVendas();
+                }
 
                 break;
 
@@ -885,8 +980,15 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         }
     }
 
-    private void importaProdutos() {
-        int resposta = JOptionPane.showConfirmDialog(this, "Importar as notas excluirá todas as informações anteriormente digitadas.\nDeseja realmente continuar?", "Importação de Notas", JOptionPane.YES_NO_OPTION);
+    private void importaCompras() {
+        int resposta;
+
+        if (proc.isAnalisado()) {
+            resposta = 0;
+        } else {
+            resposta = JOptionPane.showConfirmDialog(this, "Importar as notas excluirá todas as informações anteriormente digitadas."
+                    + "\nDeseja realmente continuar?", "Importação de Notas", JOptionPane.YES_NO_OPTION);
+        }
 
         if (resposta == 0) {
             DefaultTableModel lista = (DefaultTableModel) jTable2.getModel();
@@ -908,11 +1010,17 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
                         Double vlr_liberado = 0.00;
                         Double vlr_percentual = 0.00;
 
-                        try {
-                            vlr_credito = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o total do crédito\ndisponibilizado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
-                            vlr_liberado = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o total do crédito\nliberado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
-                            vlr_percentual = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o percentual do aproveitamento mensal\nautorizado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
-                        } catch (Exception e) {
+                        if (proc.isAnalisado()) {
+                            vlr_credito = cn.rs.getDouble("vlr_credito");
+                            vlr_liberado = cn.rs.getDouble("vlr_liberado");
+                            vlr_percentual = cn.rs.getDouble("percentual");
+                        } else {
+                            try {
+                                vlr_credito = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o total do crédito\ndisponibilizado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
+                                vlr_liberado = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o total do crédito\nliberado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
+                                vlr_percentual = Double.parseDouble(JOptionPane.showInputDialog(this, "Informe o percentual do aproveitamento mensal\nautorizado para a Nota Fiscal " + notaFiscal + ": ", null).replace(".", "").replace(",", "."));
+                            } catch (Exception e) {
+                            }
                         }
 
                         lista.addRow(new String[]{
@@ -939,7 +1047,47 @@ public class IcmsAceiteCredito extends javax.swing.JInternalFrame {
         }
     }
 
-    private void limpaDados() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void limpaCampos() {
+        jTxtId.setText("");
+        jTxtNomeProdutor.setText("");
+        jTxtDataEmissao.setText("");
+        jTxtIE.setText("");
+        jTxtCreditoSolicitado.setText("");
+        jTxtInformacao.setText("");
+        jTxtProcesso.setText("");
+        jTxtDataAnalise.setText("");
+        jTxtCreditoLiberado.setText("");
+        jTxtDtInicial.setText("");
+        jTxtDtFinal.setText("");
+        jTxtPercentual.setText("");
+        jTxtVendas.setText("");
+
+        montaTblNotas();
+        montaTblProdutos();
+    }
+
+    private void importaVendas() {
+        DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
+        montaTblProdutos();
+
+        sql = "SELECT * FROM controladoria.produtor_icms_vendas a "
+                + "LEFT JOIN controladoria.icms_produtos b ON (b.id = a.produto) "
+                + "WHERE a.id = '" + jTxtId.getText() + "';";
+        if (cn.conecta()) {
+            try {
+                cn.executeConsulta(sql);
+                while (cn.rs.next()) {
+                    lista.addRow(new String[]{
+                        cn.rs.getString("produto"),
+                        cn.rs.getString("descricao"),
+                        df.format(cn.rs.getDouble("valor"))
+                    });
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
+                cn.desconecta();
+            }
+        }
     }
 }

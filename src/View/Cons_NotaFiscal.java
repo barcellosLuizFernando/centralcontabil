@@ -6,6 +6,8 @@
 package View;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +21,7 @@ public class Cons_NotaFiscal extends javax.swing.JInternalFrame {
      * Creates new form Cons_NotaFiscal
      */
     ConexaoMySQL cn = new ConexaoMySQL();
+    private final DateFormat dateOut = new SimpleDateFormat("dd/MM/yyyy");
 
     public Cons_NotaFiscal() {
         initComponents();
@@ -169,7 +172,7 @@ public class Cons_NotaFiscal extends javax.swing.JInternalFrame {
             condicao3 = " ";
         }
 
-        sql = "SELECT * FROM notas_disponiveis WHERE valor >= 0 "
+        sql = "SELECT * FROM notas_disponiveis2 WHERE valor >= 0 "
                 + condicao1
                 + condicao2
                 + condicao3
@@ -185,7 +188,7 @@ public class Cons_NotaFiscal extends javax.swing.JInternalFrame {
                     cn.rs.getString("nome_terceiro"),
                     cn.rs.getString("cnpj_proprio"),
                     cn.rs.getString("numero_nf"),
-                    cn.rs.getString("emissao"),
+                    dateOut.format(cn.rs.getDate("emissao")),
                     cn.rs.getString("quantidade3"),
                     cn.rs.getString("quantidade")
                 });
