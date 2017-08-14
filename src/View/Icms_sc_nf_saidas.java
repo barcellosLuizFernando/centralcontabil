@@ -241,7 +241,7 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         jSpData.setModel(new javax.swing.SpinnerDateModel());
         jSpData.setEditor(new javax.swing.JSpinner.DateEditor(jSpData, "dd/MM/yyyy"));
 
-        jCbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Energia Elétrica", "Maquinário", "Insumos" }));
+        jCbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Energia Elétrica", "Maquinário", "Insumos", "Peças" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

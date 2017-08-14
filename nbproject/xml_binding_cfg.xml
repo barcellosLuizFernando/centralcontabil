@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <schemas xmlns='http://xml.netbeans.org/schema/JAXBWizConfig' destdir='build/generated-sources/jaxb' projectName='CentralContabil' version='1.0'>
-	<schema type='-xmlschema' package='schemaNFe' name='SchemaNFe'>
+	<schema type='-xmlschema' package='autoSchemaNFe' name='SchemaNFe'>
 		<xjc-options>
 		</xjc-options>
 		<schema-sources>
