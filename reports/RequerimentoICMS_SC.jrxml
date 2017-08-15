@@ -4,34 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT
-    A.id,
-    A.id_produtor,
-    b.nome as produtor,
-    A.id_estabelecimento,
-    c.descricao as nome_estab,
-    c.inscri_est as ie,
-    b.inscricao_federal as cpf,
-    concat(c.endereco, ', ',c.numero, ', Bairro ', c.bairro) as endereco,
-    c.municipio,
-    'Cultivo de Milho, Cultivo de Soja, Cultivo de Trigo, Cultivo de espécies madeireiras' as atividades,
-    e.nome as emitente,
-    d.dt_emissao,
-    d.nro_nf,
-    d.valor_credito
-
-
-
-FROM
-    produtor_icms a
-LEFT JOIN cad_pessoas b on (b.id = a.id_produtor)
-LEFT JOIN icms_estabelecimentos c on (c.id = a.id_estabelecimento)
-left JOIN produtor_icms_notas d on (d.id = a.id)
-LEFT JOIN cad_pessoas e on (e.id = d.id_emitente)
-
-where a.id = 2
-
-order by d.dt_emissao]]>
+		<![CDATA[SELECT * FROM rel_icms_produtor WHERE id = 8;]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -52,7 +25,9 @@ order by d.dt_emissao]]>
 	<field name="municipio" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="atividades" class="java.lang.String"/>
+	<field name="atividades" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="emitente" class="java.lang.String"/>
 	<field name="dt_emissao" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -60,7 +35,18 @@ order by d.dt_emissao]]>
 	<field name="nro_nf" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="valor_nf" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="valor_credito" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mun_de_entrega" class="java.lang.String"/>
+	<field name="uf_de_entrega" class="java.lang.String"/>
+	<field name="cep" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="REGIONAL" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="variable1" class="java.lang.Double" resetType="Group" resetGroup="NotaFiscal" calculation="Sum">
@@ -99,14 +85,13 @@ order by d.dt_emissao]]>
 	<title>
 		<band height="329" splitType="Stretch">
 			<staticText>
-				<reportElement x="83" y="3" width="364" height="57" uuid="31c65d0e-e171-4a76-a933-30d208189568"/>
+				<reportElement x="83" y="3" width="364" height="42" uuid="31c65d0e-e171-4a76-a933-30d208189568"/>
 				<textElement>
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ESTADO DE SANTA CATARINA
 SECRETARIA DE ESTADO DA FAZENDA
-DIRETORIA DE ADMINISTRAÇÃO TRIBUTÁRIA
-XX GERENCIA REGIONAL DA FAZENDA]]></text>
+DIRETORIA DE ADMINISTRAÇÃO TRIBUTÁRIA]]></text>
 			</staticText>
 			<image>
 				<reportElement x="12" y="0" width="65" height="60" uuid="ad76ff3d-7b7d-47e3-a146-b7cc85c9287e"/>
@@ -206,6 +191,13 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 			<textField>
 				<reportElement x="4" y="202" width="541" height="28" uuid="ebdb6d5a-162b-4960-b23b-278460c56fd5"/>
 				<textFieldExpression><![CDATA[$F{atividades}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="45" width="364" height="20" uuid="b7ffdd25-f972-4913-8055-5eb9892798b9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REGIONAL}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
