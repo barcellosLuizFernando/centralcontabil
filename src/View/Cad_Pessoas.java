@@ -5,10 +5,9 @@
  */
 package View;
 
+import ferramenta.FormatarString;
+import ferramenta.ValidaInscricao;
 import java.awt.Dimension;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,17 +21,25 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     /**
      * Creates new form Cad_Pessoas1
      */
-    ConexaoMySQL cn = new ConexaoMySQL();
-    String url;
-    String driver = "com.mysql.jdbc.Driver";
-    String usuario;
-    String senha;
+    private final ConexaoMySQL cn = new ConexaoMySQL();
+    private FormatarString format = new FormatarString();
+    private ValidaInscricao valid = new ValidaInscricao();
+    //private MaskFormatter cnpj;
+    //private MaskFormatter cpf;
 
     public Cad_Pessoas() {
+
+        /*try {
+            cnpj = new javax.swing.text.MaskFormatter("##.###.###/####-##");
+            cpf = new javax.swing.text.MaskFormatter("###.###.###-##");
+
+        } catch (Exception e) {
+        }*/
         initComponents();
-        
+
         ListaCidades();
         MontaLista();
+
     }
 
     DefaultTableModel lista = new DefaultTableModel();
@@ -43,35 +50,6 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     public void setPosicao() {
         Dimension d = this.getDesktopPane().getSize();
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
-    }
-
-    public void DadosConexao() {
-        try (FileReader arq = new FileReader("conexao.txt")) {
-            BufferedReader lerArq = new BufferedReader(arq);
-            String linha = lerArq.readLine();
-            int line = 1;
-            while (linha != null) {
-                switch (line) {
-                    case 1:
-                        url = "jdbc:mysql://" + linha;
-                        break;
-                    case 2:
-                        usuario = linha;
-                        break;
-                    case 3:
-                        senha = linha;
-                        break;
-                    default:
-                        break;
-                }
-                line++;
-                linha = lerArq.readLine();
-            }
-            arq.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro na abertura do arquivo: " + e);
-
-        }
     }
 
     public void ListaCidades() {
@@ -198,11 +176,34 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     public void IncluiPesquisa() {
         if (pesquisa == 1) {
             int linha = jTbl_Pessoas.getSelectedRow();
+            String inscricaoFederal = "";
+            //setMask(jTbl_Pessoas.getValueAt(linha, 2).toString().length());
 
             try {
                 jTxt_Id.setText(jTbl_Pessoas.getValueAt(linha, 0).toString());
                 jTxt_Nome.setText(jTbl_Pessoas.getValueAt(linha, 1).toString());
-                jFtxt_CNPJ.setText(jTbl_Pessoas.getValueAt(linha, 2).toString());
+
+                if (jTbl_Pessoas.getValueAt(linha, 2).toString().length() > 11) {
+                    System.out.println("Formatando por CNPJ.");
+
+                    for (int i = 0; i < (14 - jTbl_Pessoas.getValueAt(linha, 2).toString().length()); i++) {
+                        inscricaoFederal += "0";
+                    }
+                    inscricaoFederal += jTbl_Pessoas.getValueAt(linha, 2).toString();
+                    inscricaoFederal = format.FormatarString(inscricaoFederal, 1);
+
+                } else {
+                    System.out.println("Formatando por CPF.");
+
+                    for (int i = 0; i < (11 - jTbl_Pessoas.getValueAt(linha, 2).toString().length()); i++) {
+                        inscricaoFederal += "0";
+                    }
+                    inscricaoFederal += jTbl_Pessoas.getValueAt(linha, 2).toString();
+                    inscricaoFederal = format.FormatarString(inscricaoFederal, 2);
+                }
+
+                jTxt_CNPJ.setText(inscricaoFederal);
+
                 jTxtCidade.setText(jTbl_Pessoas.getValueAt(linha, 3).toString());
                 jTxtUF.setText(jTbl_Pessoas.getValueAt(linha, 4).toString());
             } catch (Exception e) {
@@ -243,7 +244,6 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
         jLbl_Id = new javax.swing.JLabel();
         jTxt_Id = new javax.swing.JTextField();
         jLbl_CNPJ = new javax.swing.JLabel();
-        jFtxt_CNPJ = new javax.swing.JFormattedTextField();
         jLbl_Nome = new javax.swing.JLabel();
         jTxt_Nome = new javax.swing.JTextField();
         jLbl_Cidade = new javax.swing.JLabel();
@@ -258,6 +258,7 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
         jTxtUF = new javax.swing.JTextField();
         jTxtCidade = new javax.swing.JTextField();
         jBtnPesquisaCidade = new javax.swing.JButton();
+        jTxt_CNPJ = new ferramenta.JTextFieldSomenteNumeros();
 
         jPesquisar.setTitle("Pesquisar");
         jPesquisar.setMinimumSize(new java.awt.Dimension(400, 300));
@@ -373,7 +374,7 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
                 .addGroup(jPnlCabeçalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPnlCabeçalhoLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(315, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPnlCabeçalhoLayout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -416,10 +417,6 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
 
         jLbl_CNPJ.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLbl_CNPJ.setText("Inscrição Federal");
-
-        jFtxt_CNPJ.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
-        jFtxt_CNPJ.setEnabled(false);
-        jFtxt_CNPJ.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLbl_Nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLbl_Nome.setText("Nome");
@@ -521,6 +518,17 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
             }
         });
 
+        jTxt_CNPJ.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTxt_CNPJ.setEnabled(false);
+        jTxt_CNPJ.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTxt_CNPJFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxt_CNPJFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPnlFormuláriosLayout = new javax.swing.GroupLayout(jPnlFormulários);
         jPnlFormulários.setLayout(jPnlFormuláriosLayout);
         jPnlFormuláriosLayout.setHorizontalGroup(
@@ -528,21 +536,17 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
             .addGroup(jPnlFormuláriosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnlFormuláriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnlFormuláriosLayout.createSequentialGroup()
                         .addGroup(jPnlFormuláriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPnlFormuláriosLayout.createSequentialGroup()
                                 .addComponent(jLbl_Nome)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTxt_Nome))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPnlFormuláriosLayout.createSequentialGroup()
-                                .addComponent(jLbl_Id)
+                            .addGroup(jPnlFormuláriosLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTxt_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(122, 122, 122)
-                                .addComponent(jLbl_CNPJ)
-                                .addGap(18, 18, 18)
-                                .addComponent(jFtxt_CNPJ))
+                                .addComponent(jTxt_Pesquisar))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPnlFormuláriosLayout.createSequentialGroup()
                                 .addComponent(jLbl_Cidade)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -553,9 +557,13 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
                                 .addComponent(jBtnPesquisaCidade)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPnlFormuláriosLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jLbl_Id)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTxt_Pesquisar)))
+                                .addComponent(jTxt_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(122, 122, 122)
+                                .addComponent(jLbl_CNPJ)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTxt_CNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPnlFormuláriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jBtn_Incluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -572,8 +580,8 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
                     .addComponent(jLbl_Id)
                     .addComponent(jLbl_CNPJ)
                     .addComponent(jTxt_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFtxt_CNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtn_Incluir))
+                    .addComponent(jBtn_Incluir)
+                    .addComponent(jTxt_CNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPnlFormuláriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLbl_Nome)
@@ -593,7 +601,7 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3))
                     .addComponent(jBtn_Gravar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -622,44 +630,55 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtn_GravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_GravarActionPerformed
+
         if (!"".equals(jTxt_Nome.getText())
-                && !"".equals(jFtxt_CNPJ.getText())
-                && !"".equals(jTxtCidade.getText().toString())) {
+                && !"".equals(jTxt_CNPJ.getText())
+                && !"".equals(jTxtCidade.getText().toString())
+                && validaInscricao(1)) {
 
             String id = jTxt_Id.getText();
             String nome = jTxt_Nome.getText();
-            String cnpj = jFtxt_CNPJ.getText();
+            String cnpj = formataInscricao(jTxt_CNPJ.getText());
             String uf = jTxtUF.getText();
             String cidade = jTxtCidade.getText().toString();
-            cn.conecta();
-            if (jLblStatus.getText() == "INCLUINDO") {
-                String sql = "INSERT INTO CAD_PESSOAS (NOME, INSCRICAO_FEDERAL, CIDADE, UF) "
-                        + "VALUES ('" + nome + "','" + cnpj + "','" + cidade + "','" + uf + "')";
-                cn.executeAtualizacao(sql);
-            } else {
-                String sql = "UPDATE CAD_PESSOAS SET NOME = '" + nome + "', "
-                        + "INSCRICAO_FEDERAL = '" + cnpj + "', CIDADE = '" + cidade + "', "
-                        + "UF = '" + uf + "'"
-                        + "WHERE id = " + Integer.parseInt(jTxt_Id.getText());
-                cn.executeAtualizacao(sql);
+            String sql;
+
+            if (cn.conecta()) {
+                try {
+                    if (jLblStatus.getText() == "INCLUINDO") {
+                        sql = "INSERT INTO CAD_PESSOAS (NOME, INSCRICAO_FEDERAL, CIDADE, UF) "
+                                + "VALUES ('" + nome + "','" + cnpj + "','" + cidade + "','" + uf + "')";
+                    } else {
+                        sql = "UPDATE CAD_PESSOAS SET NOME = '" + nome + "', "
+                                + "INSCRICAO_FEDERAL = '" + cnpj + "', CIDADE = '" + cidade + "', "
+                                + "UF = '" + uf + "'"
+                                + "WHERE id = " + Integer.parseInt(jTxt_Id.getText());
+                    }
+                    if (cn.executeAtualizacao(sql)) {
+                        jTxt_Id.setText("");
+                        jTxt_Nome.setText("");
+                        jTxt_Nome.setEnabled(false);
+                        jTxt_CNPJ.setText("");
+                        jLblStatus.setText("");
+                        jTxt_Pesquisar.setText("");
+                        jTxtUF.setText("");
+                        jTxtCidade.setText("");
+                        jTxt_CNPJ.setEnabled(false);
+                        jTxt_Pesquisar.setEnabled(true);
+                        jBtn_Editar.setEnabled(false);
+                        jBtn_Cancelar.setEnabled(false);
+                        jBtn_Gravar.setEnabled(false);
+                        jBtnPesquisaCidade.setEnabled(false);
+                        jBtn_Incluir.setEnabled(true);
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Não foi possível executar o comando desejado. ");
+                } finally {
+                    cn.desconecta();
+                    MontaLista();
+                }
             }
-            cn.desconecta();
-            jTxt_Id.setText("");
-            jTxt_Nome.setText("");
-            jTxt_Nome.setEnabled(false);
-            jFtxt_CNPJ.setText("");
-            jLblStatus.setText("");
-            jTxt_Pesquisar.setText("");
-            jTxtUF.setText("");
-            jTxtCidade.setText("");
-            jFtxt_CNPJ.setEnabled(false);
-            jTxt_Pesquisar.setEnabled(true);
-            jBtn_Editar.setEnabled(false);
-            jBtn_Cancelar.setEnabled(false);
-            jBtn_Gravar.setEnabled(false);
-            jBtnPesquisaCidade.setEnabled(false);
-            jBtn_Incluir.setEnabled(true);
-            MontaLista();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Algum campo está em Branco.");
         }
@@ -669,8 +688,8 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
         jTxt_Id.setText("");
         jTxt_Nome.setText("");
         jTxt_Nome.setEnabled(false);
-        jFtxt_CNPJ.setText("");
-        jFtxt_CNPJ.setEnabled(false);
+        jTxt_CNPJ.setText("");
+        jTxt_CNPJ.setEnabled(false);
         jTxt_Pesquisar.setText("");
         jTxt_Pesquisar.setEnabled(true);
         jBtnPesquisaCidade.setEnabled(false);
@@ -688,8 +707,8 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
         jTxt_Id.setText("");
         jTxt_Nome.setText("");
         jTxt_Nome.setEnabled(true);
-        jFtxt_CNPJ.setText("");
-        jFtxt_CNPJ.setEnabled(true);
+        jTxt_CNPJ.setText("");
+        jTxt_CNPJ.setEnabled(true);
         jTxt_Pesquisar.setText("");
         jTxt_Pesquisar.setEnabled(false);
         jBtnPesquisaCidade.setEnabled(true);
@@ -703,7 +722,7 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
 
     private void jBtn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_EditarActionPerformed
         jTxt_Nome.setEnabled(true);
-        jFtxt_CNPJ.setEnabled(true);
+        jTxt_CNPJ.setEnabled(true);
         jTxt_Pesquisar.setEnabled(false);
         jBtnPesquisaCidade.setEnabled(true);
         jLblStatus.setText("ALTERANDO");
@@ -769,6 +788,31 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
         ListaCidades();
     }//GEN-LAST:event_jBtnPesquisaCidadeActionPerformed
 
+    private void jTxt_CNPJFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxt_CNPJFocusLost
+
+        boolean resposta = true;
+
+        resposta = validaInscricao(1);
+
+        if (resposta == false) {
+            JOptionPane.showMessageDialog(this, "Número da Inscrição Federal é invállido!");
+            jTxt_CNPJ.grabFocus();
+        } else {
+
+            if (jTxt_CNPJ.getText().length() == 11) {
+                jTxt_CNPJ.setText(format.FormatarString(jTxt_CNPJ.getText(), 2));
+            } else {
+                jTxt_CNPJ.setText(format.FormatarString(jTxt_CNPJ.getText(), 1));
+            }
+        }
+
+
+    }//GEN-LAST:event_jTxt_CNPJFocusLost
+
+    private void jTxt_CNPJFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxt_CNPJFocusGained
+        jTxt_CNPJ.setText(formataInscricao(jTxt_CNPJ.getText()));
+    }//GEN-LAST:event_jTxt_CNPJFocusGained
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;
@@ -778,7 +822,6 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtn_Editar;
     private javax.swing.JButton jBtn_Gravar;
     private javax.swing.JButton jBtn_Incluir;
-    private javax.swing.JFormattedTextField jFtxt_CNPJ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -799,8 +842,52 @@ public final class Cad_Pessoas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTxtCidade;
     private javax.swing.JTextField jTxtPesquisa_Multi;
     private javax.swing.JTextField jTxtUF;
+    private javax.swing.JTextField jTxt_CNPJ;
     private javax.swing.JTextField jTxt_Id;
     private javax.swing.JTextField jTxt_Nome;
     private javax.swing.JTextField jTxt_Pesquisar;
     // End of variables declaration//GEN-END:variables
+
+    private void setMask(int numeros) {
+
+        System.out.println("Caracteres: " + numeros);
+
+        try {
+            if (numeros > 11) {
+
+                System.out.println("Formatação por CNPJ.");
+            } else {
+
+                System.out.println("Formatação por CPF.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao formatar campo Inscrição Federal:\n" + e);
+        }
+
+    }
+
+    private String formataInscricao(String text) {
+
+        return jTxt_CNPJ.getText().replace(".", "").replace("/", "").replace("-", "");
+    }
+
+    private boolean validaInscricao(int i) {
+        boolean resposta = false;
+
+        switch (i) {
+            case 1:
+
+                String inscricao = formataInscricao(jTxt_CNPJ.getText());
+
+                if (inscricao.length() == 11) {
+                    resposta = valid.isCPF(inscricao);
+                } else {
+                    resposta = valid.isCNPJ(inscricao);
+                }
+                break;
+        }
+
+        return resposta;
+    }
+
 }

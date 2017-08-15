@@ -284,6 +284,10 @@ public class Login extends javax.swing.JFrame {
             jPasswordField.requestFocus();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
+        } else if (evt.getKeyCode() == KeyEvent.VK_F12) {
+            jTxtUsuario.setText("luiz.barcellos");
+            jPasswordField.setText("Lu!z12345");
+            jBtnAcessar.requestFocus();
         }
     }//GEN-LAST:event_jTxtUsuarioKeyPressed
 

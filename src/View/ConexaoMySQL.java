@@ -86,7 +86,7 @@ public class ConexaoMySQL {
 
         } catch (SQLException sqlEx) {
 
-            JOptionPane.showMessageDialog(null, "Não foi possível desconectar o banco " + sqlEx);
+            JOptionPane.showMessageDialog(null, "Não foi possível desconectar o banco\n" + sqlEx);
 
         }
 
@@ -103,7 +103,7 @@ public class ConexaoMySQL {
         } catch (SQLException sqlEx) {
             resultadoUpd = 1;
             resposta = false;
-            JOptionPane.showMessageDialog(null, "Não foi possível executar o comando sql" + sql + ".Erro " + sqlEx + " upd " + resultadoUpd);
+            JOptionPane.showMessageDialog(null, "Não foi possível executar o comando sql" + sql + ".\nErro " + sqlEx + " upd " + resultadoUpd);
         }
         return resposta;
     }
@@ -121,7 +121,7 @@ public class ConexaoMySQL {
 
         } catch (SQLException sqlEx) {
 
-            JOptionPane.showMessageDialog(null, "Não foi possível executar o comando sql" + sql + "Erro " + sqlEx);
+            JOptionPane.showMessageDialog(null, "Não foi possível executar o comando sql" + sql + ".\nErro " + sqlEx);
             resposta = false;
         }
 

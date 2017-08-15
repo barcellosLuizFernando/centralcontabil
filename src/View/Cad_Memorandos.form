@@ -423,7 +423,7 @@
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTxtNroFocusLost"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JtextFieldSomenteNumeros()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ferramenta.JTextFieldSomenteNumeros()"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLblData">
@@ -563,7 +563,7 @@
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTxtRegistroFocusLost"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JtextFieldSomenteNumeros()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ferramenta.JTextFieldSomenteNumeros()"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jBtnPesquisaPessoas">
@@ -634,7 +634,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JtextFieldSomenteNumeros()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ferramenta.JTextFieldSomenteNumeros()"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">

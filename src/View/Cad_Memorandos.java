@@ -5,6 +5,7 @@
  */
 package View;
 
+import ferramenta.JTextFieldSomenteNumeros;
 import ferramenta.ColorRender;
 import java.awt.Dimension;
 import java.io.BufferedReader;
@@ -940,7 +941,7 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
         jTPnlGuias = new javax.swing.JTabbedPane();
         jPnlMemorando = new javax.swing.JPanel();
         jLblNro = new javax.swing.JLabel();
-        jTxtNro = new JtextFieldSomenteNumeros();
+        jTxtNro = new JTextFieldSomenteNumeros();
         jLblData = new javax.swing.JLabel();
         jLblExportador = new javax.swing.JLabel();
         jTxtIdExportador = new javax.swing.JTextField();
@@ -955,14 +956,14 @@ public final class Cad_Memorandos extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jTxtNroDespacho = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTxtRegistro = new JtextFieldSomenteNumeros();
+        jTxtRegistro = new JTextFieldSomenteNumeros();
         jBtnPesquisaPessoas = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTxtIdPaisDestino = new javax.swing.JTextField();
         jTxtNomePaisDestino = new javax.swing.JTextField();
         jBtnPesquisaDestino = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jTxtNfExportacao = new JtextFieldSomenteNumeros();
+        jTxtNfExportacao = new JTextFieldSomenteNumeros();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTxtIdPaisImportador = new javax.swing.JTextField();

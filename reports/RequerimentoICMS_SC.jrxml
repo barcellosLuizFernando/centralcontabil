@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RequerimentoICMS_SC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="93e75314-28cc-42fe-a59e-588a2f2b8cb9">
-	<property name="ireport.zoom" value="2.3579476910000117"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RequerimentoICMS_SC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isSummaryNewPage="true" uuid="93e75314-28cc-42fe-a59e-588a2f2b8cb9">
+	<property name="ireport.zoom" value="1.4641000000000068"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="checklist" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT * FROM rel_icms_produtor WHERE id = 8;]]>
+		<![CDATA[SELECT * FROM rel_icms_produtor WHERE id = 10;]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -57,7 +60,7 @@
 		<groupFooter>
 			<band height="21">
 				<rectangle>
-					<reportElement x="0" y="0" width="555" height="20" uuid="546a0354-e5da-4bdf-8d0b-b3fa4de23834"/>
+					<reportElement x="0" y="0" width="567" height="20" uuid="546a0354-e5da-4bdf-8d0b-b3fa4de23834"/>
 				</rectangle>
 				<line>
 					<reportElement x="440" y="0" width="1" height="20" uuid="9a4a4f3a-3977-40bb-aa3b-4cc64a669c5b"/>
@@ -105,7 +108,7 @@ DIRETORIA DE ADMINISTRAÇÃO TRIBUTÁRIA]]></text>
 				<text><![CDATA[SENHOR GERENTE REGIONAL DA FAZENDA ESTADUAL]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="102" width="555" height="34" uuid="70dce8f8-f08a-4425-9b96-ae72e75cc4be"/>
+				<reportElement x="0" y="102" width="567" height="34" uuid="70dce8f8-f08a-4425-9b96-ae72e75cc4be"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="2" y="101" width="132" height="18" uuid="00515d13-98e8-455b-99bc-948d00362016"/>
@@ -126,10 +129,10 @@ CPF Nº]]></text>
 				<reportElement x="340" y="102" width="1" height="34" uuid="827182db-d74c-4dca-b1d2-35cfb2b9cc07"/>
 			</line>
 			<line>
-				<reportElement x="341" y="119" width="214" height="1" uuid="974963eb-393a-40a0-8dc7-92356b0e7930"/>
+				<reportElement x="341" y="119" width="226" height="1" uuid="974963eb-393a-40a0-8dc7-92356b0e7930"/>
 			</line>
 			<rectangle>
-				<reportElement x="0" y="143" width="555" height="34" uuid="2b26f123-2981-43a4-b6ce-6e21fe0fb263"/>
+				<reportElement x="0" y="143" width="567" height="34" uuid="2b26f123-2981-43a4-b6ce-6e21fe0fb263"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="2" y="143" width="339" height="18" uuid="0cc9ff73-fe0f-43df-983c-a40aba84cbda"/>
@@ -139,7 +142,7 @@ CPF Nº]]></text>
 				<text><![CDATA[ENDEREÇO (Linha, Rua, nº, Bairro)]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="184" width="555" height="46" uuid="0afc381c-1ce4-40a5-9175-1272b27454d8"/>
+				<reportElement x="0" y="184" width="567" height="46" uuid="0afc381c-1ce4-40a5-9175-1272b27454d8"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="2" y="184" width="339" height="18" uuid="c2cd8592-2656-4f6f-8f60-49156bdbe1f6"/>
@@ -149,7 +152,7 @@ CPF Nº]]></text>
 				<text><![CDATA[ESPECIFICAÇÃO DAS ATIVIDADES AGROPECUÁRIAS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="232" width="555" height="93" uuid="7bbf2cb0-cd31-4a93-bb03-3bdc75466db0"/>
+				<reportElement x="0" y="232" width="567" height="93" uuid="7bbf2cb0-cd31-4a93-bb03-3bdc75466db0"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Times New Roman" size="12" isBold="false"/>
 				</textElement>
@@ -204,17 +207,17 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 	<columnHeader>
 		<band height="46" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="18" uuid="a4fa80ef-cae2-417b-808c-1c8661c8e76f"/>
+				<reportElement x="0" y="0" width="567" height="18" uuid="a4fa80ef-cae2-417b-808c-1c8661c8e76f"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="440" y="0" width="115" height="18" uuid="cfc32b77-efce-480b-b3fc-a7e1d7ad7e02"/>
+				<reportElement x="440" y="0" width="127" height="18" uuid="cfc32b77-efce-480b-b3fc-a7e1d7ad7e02"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[USO DO FISCAL]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="18" width="555" height="28" uuid="d8d50c8d-b1ea-4266-9826-1f3fa748fdec"/>
+				<reportElement x="0" y="18" width="567" height="28" uuid="d8d50c8d-b1ea-4266-9826-1f3fa748fdec"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="345" y="18" width="95" height="28" uuid="a51f193b-8b20-4bd6-a0e7-eaa1589c3a60"/>
@@ -245,7 +248,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 				<text><![CDATA[EMITENTE DA NOTA FISCAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="440" y="18" width="116" height="28" uuid="d537a5b6-2594-401e-802f-96acad49391f"/>
+				<reportElement x="440" y="18" width="127" height="28" uuid="d537a5b6-2594-401e-802f-96acad49391f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="false"/>
 				</textElement>
@@ -271,7 +274,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 	<detail>
 		<band height="21" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="20" uuid="b505bc54-a4d6-4084-8445-936e8a87d697"/>
+				<reportElement x="0" y="0" width="567" height="20" uuid="b505bc54-a4d6-4084-8445-936e8a87d697"/>
 			</rectangle>
 			<line>
 				<reportElement x="440" y="0" width="1" height="20" uuid="017ee838-6aef-4a30-ab51-35e25e0e24f4"/>
@@ -307,9 +310,9 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="219">
+		<band height="149">
 			<rectangle>
-				<reportElement x="0" y="65" width="555" height="83" uuid="14dcfee9-647c-4a92-8a82-c60acdc21baa"/>
+				<reportElement x="0" y="65" width="567" height="83" uuid="14dcfee9-647c-4a92-8a82-c60acdc21baa"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="0" width="375" height="15" uuid="4d0bff7e-bbf2-4e01-80f5-2587446f65a7"/>
@@ -319,7 +322,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 				<text><![CDATA[NESTES TERMOS PEDE DEFERIMENTO]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="17" width="555" height="44" uuid="6ae6161a-4fc3-4c82-9e21-2e1d671ea7bc"/>
+				<reportElement x="0" y="17" width="567" height="44" uuid="6ae6161a-4fc3-4c82-9e21-2e1d671ea7bc"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="3" y="17" width="227" height="18" uuid="e6a3d8b6-7396-431e-8881-862d170d3830"/>
@@ -339,14 +342,14 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 				<reportElement x="232" y="17" width="1" height="44" uuid="c129d907-8aa3-4783-bbe8-2a00e5d1fd45"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="65" width="555" height="18" uuid="9dcf9514-60b4-46b9-a9d3-199108c6b920"/>
+				<reportElement x="0" y="65" width="567" height="18" uuid="9dcf9514-60b4-46b9-a9d3-199108c6b920"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PARA USO EXCLUSIVO DA AUTORIDADE FISCAL]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="83" width="555" height="1" uuid="36398b5f-efb9-41e2-b3f7-7b501da815c6"/>
+				<reportElement x="0" y="83" width="567" height="1" uuid="36398b5f-efb9-41e2-b3f7-7b501da815c6"/>
 			</line>
 			<line>
 				<reportElement x="340" y="83" width="1" height="64" uuid="2a2002a4-b285-418d-bd51-473bd08fa457"/>
@@ -364,7 +367,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 				<reportElement x="0" y="135" width="340" height="1" uuid="c17f7d5f-d538-45ca-a237-bd360bdcefa4"/>
 			</line>
 			<line>
-				<reportElement x="341" y="105" width="214" height="1" uuid="43e435d6-7688-47c5-8525-3e89cff07614"/>
+				<reportElement x="341" y="105" width="226" height="1" uuid="43e435d6-7688-47c5-8525-3e89cff07614"/>
 			</line>
 			<staticText>
 				<reportElement x="342" y="85" width="100" height="20" uuid="304a17dd-60c5-44c4-ace7-067dd63ee97a"/>
@@ -382,4 +385,27 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 			</staticText>
 		</band>
 	</lastPageFooter>
+	<summary>
+		<band height="161">
+			<printWhenExpression><![CDATA[$P{checklist}]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="567" height="30" uuid="aadf935c-14eb-482e-8669-0dd9153aa1fd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="22" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Check List]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="53" width="344" height="105" uuid="c0c6af45-0df3-4c9e-bab5-7678c6c00ef9"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="14" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[(  ) Requerimento de ICMS, assinado em todas as vias, com firma reconhecida apenas na assinatura da última folha.
+
+(  ) Cópia autenticada de Carteira de Identidade e CPF.
+
+(  ) Procuração assinada, com firma reconhecida.]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

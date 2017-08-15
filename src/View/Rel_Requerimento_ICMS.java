@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -69,6 +70,7 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -236,6 +238,8 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
 
         jLabel3.setText("REQUERIMENTO");
 
+        jCheckBox1.setText("Anexar Check List");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -244,6 +248,8 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCheckBox1)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -253,7 +259,8 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jCheckBox1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -444,9 +451,11 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
             try {
 
                 JRResultSetDataSource relatResult = new JRResultSetDataSource(cn.rs);
+                Map<String, Object> parametros = new HashMap<String, Object>();
+                parametros.put("checklist", jCheckBox1.isSelected());
 
                 JasperPrint jasperprint;
-                jasperprint = JasperFillManager.fillReport(rel, new HashMap(), relatResult);
+                jasperprint = JasperFillManager.fillReport(rel, parametros, relatResult);
                 JasperViewer jv = new JasperViewer(jasperprint, false);
 
                 jv.setVisible(true);
@@ -516,6 +525,7 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

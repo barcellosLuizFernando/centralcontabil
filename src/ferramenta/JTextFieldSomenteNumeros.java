@@ -5,7 +5,7 @@ CLASSE CRIADA PARA LIMITAR A EDIÇÃO DO JTEXT COM APENAS NÚMEROS
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package ferramenta;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
@@ -14,10 +14,10 @@ import javax.swing.JTextField;
  *
  * @author luiz.barcellos
  */
-public final class JtextFieldSomenteNumeros extends JTextField {
+public final class JTextFieldSomenteNumeros extends JTextField {
 private int maximoCaracteres=-1;// definição de -1 
 // como  valor normal de um textfield sem limite de caracters
-public JtextFieldSomenteNumeros() {
+public JTextFieldSomenteNumeros() {
         super();
         addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
