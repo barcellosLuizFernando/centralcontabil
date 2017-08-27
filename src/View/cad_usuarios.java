@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -5,8 +5,8 @@
  */
 package ferramenta;
 
-import View.ConexaoFB;
-import View.ConexaoMySQL;
+import conexoes.ConexaoFB;
+import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 

@@ -5,6 +5,8 @@
  */
 package View;
 
+import conexoes.ConexaoFB;
+import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -208,9 +210,9 @@ public class ImportarEstab extends javax.swing.JInternalFrame {
                 fb.conecta();
                 cn.conecta();
 
-                sql = "SELECT b.nome, b.cpf_cnpj, a.descricao, a.nirf, "
+                sql = "SELECT DISTINCT b.nome, b.cpf_cnpj, a.descricao, a.nirf, "
                         + "a.incra, a.matriculas, c.endereco, c.numero, c.bairro, "
-                        + "e.nome as municipio, c.cad_pro as ie, a.area "
+                        + "e.nome as municipio, c.cad_pro as ie "
                         + "from cad_terceiros_produtores_det a "
                         + "left join cad_terceiros b on (b.empresa = a.empresa and b.codigo = a.codigo) "
                         + "left join cad_terceiros_enderecos c on (c.empresa = a.empresa and c.codigo = a.codigo and a.sequencia_endereco = c.sequencia) "
@@ -230,7 +232,7 @@ public class ImportarEstab extends javax.swing.JInternalFrame {
                         bairro = fb.rs.getString("bairro");
                         municipio = fb.rs.getString("municipio");
                         ie = fb.rs.getString("ie");
-                        area = fb.rs.getString("area");
+                        area = "0.00";
 
                         sql = "INSERT INTO icms_estabelecimentos (id_pessoa,"
                                 + "descricao,nirf,incra,matricula,endereco,numero,"

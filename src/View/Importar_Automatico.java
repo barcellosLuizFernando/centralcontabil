@@ -5,6 +5,8 @@
  */
 package View;
 
+import conexoes.ConexaoFB;
+import conexoes.ConexaoMySQL;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.text.DateFormat;

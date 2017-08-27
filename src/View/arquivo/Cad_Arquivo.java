@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.arquivo;
 
+import conexoes.ConexaoMySQL;
+import View.TelaInicial;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;

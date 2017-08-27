@@ -5,6 +5,29 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
+import conexoes.ConexaoORCL;
+import View.arquivo.UtilAlteraAssuntos;
+import View.icms.Rel_Requerimento_ICMS;
+import View.arquivo.Cad_Movimentacoes;
+import View.arquivo.Cad_Departamentos;
+import View.arquivo.Cad_Tipos;
+import View.arquivo.Cad_Arquivo;
+import View.arquivo.Cad_prazo;
+import View.arquivo.Cons_Capa;
+import View.arquivo.Cad_Locais;
+import View.arquivo.Cad_Assuntos;
+import View.arquivo.Rel_Capas;
+import View.arquivo.Cad_Capas;
+import View.arquivo.Cons_Arquivo;
+import View.arquivo.Rel_Etiquetas;
+import View.icms.BaixaCreditos;
+import View.icms.Icms_sc_nf_saidas;
+import View.icms.icms_agencias;
+import View.icms.IcmsProcuracao;
+import View.icms.IcmsAceiteCredito;
+import View.icms.IcmsRequerimento;
+import View.icms.RelAceiteIcms;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -190,6 +213,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
         jMnConsultas = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -843,6 +867,15 @@ public final class TelaInicial extends javax.swing.JFrame {
             }
         });
         jMnIcms.add(jMenuItem20);
+
+        jMenuItem30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem30.setText("Recebimento do Crédito");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMnIcms.add(jMenuItem30);
 
         jMenu1.add(jMnIcms);
 
@@ -1699,6 +1732,10 @@ public final class TelaInicial extends javax.swing.JFrame {
         abreTelaInterna(new RelAceiteIcms());        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        abreTelaInterna(new BaixaCreditos());
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAtualizarArquivo;
@@ -1742,6 +1779,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

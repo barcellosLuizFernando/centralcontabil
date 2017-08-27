@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;

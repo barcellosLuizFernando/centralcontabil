@@ -1,7 +1,8 @@
-package View;
+package View.icms;
 
-import View.ConexaoFB;
-import View.ConexaoMySQL;
+import conexoes.ConexaoFB;
+import conexoes.ConexaoMySQL;
+import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;

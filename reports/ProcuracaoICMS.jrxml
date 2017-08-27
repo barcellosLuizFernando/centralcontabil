@@ -72,7 +72,7 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and A.id = 2 AN
 				<textElement textAlignment="Justified">
 					<font fontName="Calibri" size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{produtor} + ", incrito no CPF/CNPJ sob nº "
+				<textFieldExpression><![CDATA[$F{produtor} + ", inscrito no CPF/CNPJ sob nº "
 + ($F{cpf}.substring(0, 3) + "." + $F{cpf}.substring(3, 6) + "." + $F{cpf}.substring(6, 9) + "-" + $F{cpf}.substring(9, 11))
 + " e no Cadastro Estadual sob nº " + $F{ie}
 +", sediado a " + $F{endereco} + " na Cidade de "
@@ -91,7 +91,7 @@ FROM rel_icms_produtor a, cad_pessoas b where a.id_produtor = 47 and A.id = 2 AN
 					<font fontName="Calibri" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{procNome} +", "+$F{procNacionalidade}+", "
-+$F{proc_EstadoCivil}+ ", incrito no CPF/CNPJ sob nº "
++$F{proc_EstadoCivil}+ ", inscrito no CPF/CNPJ sob nº "
 + (($F{procCPF}).substring(0, 3) + "." + ($F{procCPF}).substring(3, 6) + "." + ($F{procCPF}).substring(6, 9) + "-" + ($F{procCPF}).substring(9, 11))
 + " e no Registro Geral sob nº " + $F{procRG}
 +", sediado a " + $F{procEndereco} + ", " + $F{procNro}

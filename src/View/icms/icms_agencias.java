@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.icms;
 
+import conexoes.ConexaoMySQL;
+import View.TelaInicial;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;

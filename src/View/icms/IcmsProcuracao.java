@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.icms;
 
+import conexoes.ConexaoMySQL;
 import ferramenta.CadPessoas;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -5,7 +5,7 @@
  */
 package ferramenta;
 
-import View.ConexaoMySQL;
+import conexoes.ConexaoMySQL;
 import javax.swing.JOptionPane;
 
 /**

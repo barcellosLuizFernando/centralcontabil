@@ -25,8 +25,8 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class ImprimeRelatorio {
 
-    private ConexaoMySQL cn = new ConexaoMySQL();
-    private SimpleDateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
+    private final ConexaoMySQL cn = new ConexaoMySQL();
+    private final SimpleDateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
 
     public void imprimir(String sql, String relatorio, String titulo) {
 

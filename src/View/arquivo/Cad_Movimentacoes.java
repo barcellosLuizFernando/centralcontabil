@@ -1,5 +1,7 @@
-package View;
+package View.arquivo;
 
+import conexoes.ConexaoMySQL;
+import View.TelaInicial;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;

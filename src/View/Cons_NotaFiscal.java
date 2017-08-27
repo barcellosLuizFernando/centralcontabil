@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

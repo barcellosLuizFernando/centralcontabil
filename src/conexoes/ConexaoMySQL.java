@@ -1,4 +1,4 @@
-package View;
+package conexoes;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class ConexaoMySQL {
 
-    private Connection conexao;
+    public Connection conexao;
     private Statement st;
     public ResultSet rs;
 

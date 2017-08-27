@@ -1,4 +1,4 @@
-package View;
+package conexoes;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ConexaoFB {
+public class ConexaoORCL {
 
     private Connection conexao;
     private Statement st;
@@ -20,18 +20,16 @@ public class ConexaoFB {
 
     String url, driver, usuario, senha;
 
-    public static int resultadoUpd;
-
+    public static int resultadoUpd = 99;
+    
     public static Properties getProp() throws IOException {
-
-        Properties props = new Properties();
-
-        FileInputStream file = new FileInputStream(
-                "./src/properties/fb.properties");
-        props.load(file);
-        file.close();
         
-        System.out.println("Firebird - Arquivo de Propriedades Capturado.");
+        Properties props = new Properties();
+        
+        FileInputStream file = new FileInputStream(
+                "./src/properties/orcl.properties");
+        props.load(file);
+        
         return props;
 
     }
@@ -42,14 +40,18 @@ public class ConexaoFB {
             Properties props = getProp();
             driver = props.getProperty("driver");
             url = props.getProperty("url");
-
+            
             Class.forName(driver);
             conexao = DriverManager.getConnection(url, props);
-            st = conexao.createStatement();
+            //st = conexao.createStatement();
 
+            conexao.setAutoCommit(false);
+            
             resultadoUpd = 0;
             
-            System.out.println("Firebird - Conectado com o Banco de Dados.");
+            
+
+            //st.executeUpdate("begin");
 
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível carregar o "
@@ -57,7 +59,7 @@ public class ConexaoFB {
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(null, "Erro na conexão com o banco de dados. " + sqlEx);
         } catch (IOException ex) {
-            Logger.getLogger(ConexaoFB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConexaoORCL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -67,16 +69,35 @@ public class ConexaoFB {
 
             switch (resultadoUpd) {
                 case 0:
-                    st = conexao.createStatement();
+                    //st = conexao.createStatement();
+                    //st.executeUpdate("commit");
+                    conexao.commit();
                     break;
                 default:
+                    conexao.rollback();
+                    //st = conexao.createStatement();
+                    //st.executeUpdate("rollback");
             }
 
             conexao.close();
-            System.out.println("Firebird - Desconectado com o Banco de Dados.");
+
         } catch (SQLException sqlEx) {
 
             JOptionPane.showMessageDialog(null, "Não foi possível desconectar o banco " + sqlEx);
+
+        }
+
+    }
+
+    public void executeAtualizacao(String sql) {
+
+        try {
+            st = conexao.createStatement();
+            st.executeUpdate(sql);
+
+        } catch (SQLException sqlEx) {
+            resultadoUpd = 1;
+            JOptionPane.showMessageDialog(null, "Não foi possível executar o comando sql" + sql + ".Erro " + sqlEx + " upd " + resultadoUpd);
 
         }
 
@@ -88,8 +109,6 @@ public class ConexaoFB {
             st = conexao.createStatement();
 
             rs = st.executeQuery(sql);
-            
-            System.out.println("Firebird - Executando consulta ao Banco de dados: " + sql);
 
         } catch (SQLException sqlEx) {
 

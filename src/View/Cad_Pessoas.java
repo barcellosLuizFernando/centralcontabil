@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import buscaCEP.CEP;
 import buscaCEP.BuscaCEP;
 import buscaCNPJ.BuscaCNPJ;

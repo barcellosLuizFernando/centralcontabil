@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RequerimentoICMS_SC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isSummaryNewPage="true" uuid="93e75314-28cc-42fe-a59e-588a2f2b8cb9">
 	<property name="ireport.zoom" value="1.4641000000000068"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="677"/>
 	<parameter name="checklist" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -386,7 +386,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="161">
+		<band height="268">
 			<printWhenExpression><![CDATA[$P{checklist}]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="0" width="567" height="30" uuid="aadf935c-14eb-482e-8669-0dd9153aa1fd"/>
@@ -396,7 +396,7 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 				<text><![CDATA[Check List]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="53" width="344" height="105" uuid="c0c6af45-0df3-4c9e-bab5-7678c6c00ef9"/>
+				<reportElement x="0" y="53" width="362" height="192" uuid="c0c6af45-0df3-4c9e-bab5-7678c6c00ef9"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Times New Roman" size="14" isItalic="false"/>
 				</textElement>
@@ -404,7 +404,11 @@ b)	Apresentar a Ficha de Controle do Crédito à autoridade fiscal toda vez que 
 
 (  ) Cópia autenticada de Carteira de Identidade e CPF.
 
-(  ) Procuração assinada, com firma reconhecida.]]></text>
+(  ) Procuração assinada, com firma reconhecida.
+
+(  ) Guia de recolhimento da taxa da Receita Estadual (2 vias)
+
+(  ) Comprovante de recolhimento da taxa da Receita Estadual]]></text>
 			</staticText>
 		</band>
 	</summary>

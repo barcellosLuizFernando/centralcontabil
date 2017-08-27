@@ -5,6 +5,7 @@
  */
 package View;
 
+import conexoes.ConexaoMySQL;
 import ferramenta.JTextFieldSomenteNumeros;
 import ferramenta.ColorRender;
 import java.awt.Dimension;

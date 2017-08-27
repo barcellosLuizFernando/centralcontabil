@@ -6,6 +6,7 @@
 package View;
 
 //import conexoes.ConexaoMySQL;
+import conexoes.ConexaoMySQL;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;

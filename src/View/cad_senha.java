@@ -1,6 +1,7 @@
 package View;
 
 
+import conexoes.ConexaoMySQL;
 import View.TelaInicial;
 import javax.swing.JOptionPane;
 
