@@ -34,8 +34,8 @@ public class BaixaCreditos extends javax.swing.JInternalFrame {
     private ProdutorBaixaCreditoPK pk = new ProdutorBaixaCreditoPK();
     private ProdutorBaixaCreditoDAO dao = new ProdutorBaixaCreditoDAO();
     private final DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
-    private RelCreditoDisp resumo = new RelCreditoDisp();
-    private RelCreditoDispDAO resumoDAO = new RelCreditoDispDAO();
+    private RelCreditoDisp resumo;
+    private RelCreditoDispDAO resumoDAO;
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
     private javax.swing.text.MaskFormatter data;
 
@@ -659,6 +659,9 @@ public class BaixaCreditos extends javax.swing.JInternalFrame {
     private void calculaSaldos() {
 
         try {
+            
+            resumo = new RelCreditoDisp();
+            resumoDAO = new RelCreditoDispDAO();
 
             resumo = resumoDAO.buscar(Integer.parseInt(jTxtId.getText()));
             jTxtOrdens.setText(resumo.getQtd() + "");

@@ -22,6 +22,8 @@ import View.arquivo.Cad_Capas;
 import View.arquivo.Cons_Arquivo;
 import View.arquivo.Rel_Etiquetas;
 import View.icms.BaixaCreditos;
+import View.icms.Cad_Fabricantes;
+import View.icms.Cad_Tipos_Veiculos;
 import View.icms.Icms_sc_nf_saidas;
 import View.icms.icms_agencias;
 import View.icms.IcmsProcuracao;
@@ -44,9 +46,9 @@ public final class TelaInicial extends javax.swing.JFrame {
      * Creates new form TelaInicial
      */
     ConexaoMySQL cn = new ConexaoMySQL();
-    
+
     public static int usuariosys;
-    
+
     public TelaInicial() {
         initComponents();
         setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -81,10 +83,10 @@ public final class TelaInicial extends javax.swing.JFrame {
                 + "SELECT  'CADASTRADAS' AS TIPO, "
                 + "count(a.id) as QUANTIDADE "
                 + "from cad_notas_fiscais a ";
-        
+
         cn.conecta();
         cn.executeConsulta(sql);
-        
+
         try {
             while (cn.rs.next()) {
                 if (cn.rs.getString("TIPO").equals("MEMORANDOS")) {
@@ -93,17 +95,17 @@ public final class TelaInicial extends javax.swing.JFrame {
                     jTxtContNfP.setText(cn.rs.getString("QUANTIDADE"));
                 } else if (cn.rs.getString("TIPO").equals("CADASTRADAS")) {
                     jTxtContNfC.setText(cn.rs.getString("QUANTIDADE"));
-                    
+
                 }
             }
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, ex);
         }
         cn.desconecta();
-        
+
     }
-    
+
     public void ContagemArquivo() {
         String sql = "select 'CAPAS' as tipo, "
                 + "count(id) as qtd "
@@ -112,27 +114,27 @@ public final class TelaInicial extends javax.swing.JFrame {
                 + "select 'ETIQUETAS' as tipo, "
                 + "count(id) as qtd "
                 + "from cad_arquivo_pastas;";
-        
+
         cn.conecta();
         cn.executeConsulta(sql);
-        
+
         try {
             while (cn.rs.next()) {
                 if (cn.rs.getString("TIPO").equals("CAPAS")) {
                     jTxtContCapas.setText(cn.rs.getString("qtd"));
                 } else if (cn.rs.getString("TIPO").equals("ETIQUETAS")) {
                     jTxtContEtiquetas.setText(cn.rs.getString("qtd"));
-                    
+
                 }
             }
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, ex);
         }
         cn.desconecta();
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -208,10 +210,12 @@ public final class TelaInicial extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMnIcms = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
+        jMenuItem32 = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem30 = new javax.swing.JMenuItem();
         jMnConsultas = new javax.swing.JMenu();
@@ -829,6 +833,33 @@ public final class TelaInicial extends javax.swing.JFrame {
             }
         });
         jMnIcms.add(jMenuItem25);
+
+        jMenuItem28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem28.setText("Tipos de Veículos");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMnIcms.add(jMenuItem28);
+
+        jMenuItem31.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem31.setText("Fabricantes");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMnIcms.add(jMenuItem31);
+
+        jMenuItem32.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem32.setText("Frota Produtor");
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
+        jMnIcms.add(jMenuItem32);
         jMnIcms.add(jSeparator10);
 
         jMenuItem19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -848,16 +879,6 @@ public final class TelaInicial extends javax.swing.JFrame {
             }
         });
         jMnIcms.add(jMenuItem21);
-
-        jMenuItem28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem28.setText("Procuração");
-        jMenuItem28.setEnabled(false);
-        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem28ActionPerformed(evt);
-            }
-        });
-        jMnIcms.add(jMenuItem28);
 
         jMenuItem20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem20.setText("Aceite do Crédito");
@@ -1163,7 +1184,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMniLimpraNfPropActionPerformed
 
     private void jBtnAtualizarResumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizarResumoActionPerformed
-        
+
         Contagem();        // TODO add your handling code here:
     }//GEN-LAST:event_jBtnAtualizarResumoActionPerformed
 
@@ -1311,7 +1332,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ops! Não foi possível abrir a tela de Empresas. " + e);
         }// TODO add your handling code here:
     }//GEN-LAST:event_jMniDepartamentosActionPerformed
-    
+
 
     private void jMniRelNFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMniRelNFActionPerformed
         try {
@@ -1391,7 +1412,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jBtnAtualizarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizarArquivoActionPerformed
-        
+
         ContagemArquivo();
 
 // TODO add your handling code here:
@@ -1617,10 +1638,10 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         ConexaoORCL cno = new ConexaoORCL();
-        
+
         cno.conecta();
         cno.desconecta();
-        
+
 
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
@@ -1725,7 +1746,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnConfiguracao3ActionPerformed
 
     private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
-        abreTelaInterna(new IcmsProcuracao());
+        abreTelaInterna(new Cad_Tipos_Veiculos());
     }//GEN-LAST:event_jMenuItem28ActionPerformed
 
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
@@ -1735,6 +1756,15 @@ public final class TelaInicial extends javax.swing.JFrame {
     private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
         abreTelaInterna(new BaixaCreditos());
     }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        abreTelaInterna(new Cad_Fabricantes());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1780,6 +1810,8 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -1849,7 +1881,7 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     public void controlaAcesso() {
         String grupo = "";
-        
+
         cn.conecta();
         cn.executeConsulta("SELECT grupo FROM cad_usuarios WHERE id = " + usuariosys + ";");
         try {
@@ -1861,7 +1893,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             System.exit(0);
         }
         cn.desconecta();
-        
+
         if ("2".equals(grupo)) {
             jMnEstabelecimentos.setEnabled(false);
             jMniCadastro.setEnabled(false);
@@ -1873,7 +1905,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMnIcms.setEnabled(false);
             jMnConsultas.setEnabled(false);
             jMnConfiguracao.setEnabled(false);
-            
+
             jMniTipos.setEnabled(false);
             jMniAssuntos.setEnabled(false);
             jMniDepartamentos.setEnabled(false);
@@ -1883,9 +1915,9 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMniExtracao.setEnabled(false);
             jMniDevolucao.setEnabled(false);
             jMniDescarte.setEnabled(false);
-            
+
             jMnUtilAssuntos.setEnabled(false);
-            
+
             jMniRelNF.setEnabled(false);
             jMniRelPaises.setEnabled(false);
             jMniRelCapas.setEnabled(false);
@@ -1901,7 +1933,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMnConsultas.setEnabled(false);
             jMnuArquivoMorto.setEnabled(false);
             jMnConfiguracao.setEnabled(false);
-            
+
             jMniTipos.setEnabled(false);
             jMniAssuntos.setEnabled(false);
             jMniDepartamentos.setEnabled(false);
@@ -1911,18 +1943,18 @@ public final class TelaInicial extends javax.swing.JFrame {
             jMniExtracao.setEnabled(false);
             jMniDevolucao.setEnabled(false);
             jMniDescarte.setEnabled(false);
-            
+
             jMnUtilAssuntos.setEnabled(false);
-            
+
             jMniRelNF.setEnabled(false);
             jMniRelPaises.setEnabled(false);
             jMniRelCapas.setEnabled(false);
         }
-        
+
     }
-    
+
     private void abreTelaInterna(JInternalFrame tela) {
-        
+
         try {
             //PREPARAÇÃO PARA RECEBER INSTRUÇÕES PARA NAO ABRIR VÁRIAS JANELAS
             if (false) {
@@ -1937,7 +1969,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ops! Não foi possível abrir a tela '" + tela + "'. \nErro: " + e);
         }
     }
-    
+
     private void setPosicao(JInternalFrame x) {
         Dimension d = x.getDesktopPane().getSize();
         x.setLocation((d.width - x.getSize().width) / 2, (d.height - x.getSize().height) / 2);
