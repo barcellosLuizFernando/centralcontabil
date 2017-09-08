@@ -6,6 +6,7 @@
 package View.icms;
 
 import conexoes.ConexaoMySQL;
+import ferramenta.FiltrarTabela;
 import ferramenta.JNumberFormatField99;
 import ferramenta.JTextFieldSomenteNumeros;
 import java.text.DateFormat;
@@ -431,7 +432,7 @@ public class BaixaCreditos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTxtPesquisa_MultiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtPesquisa_MultiKeyReleased
-
+        new FiltrarTabela(jTblConsulta_Multi, jTxtPesquisa_Multi.getText());
     }//GEN-LAST:event_jTxtPesquisa_MultiKeyReleased
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed

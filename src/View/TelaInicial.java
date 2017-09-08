@@ -28,6 +28,7 @@ import View.icms.Icms_sc_nf_saidas;
 import View.icms.icms_agencias;
 import View.icms.IcmsProcuracao;
 import View.icms.IcmsAceiteCredito;
+import View.icms.IcmsFrota;
 import View.icms.IcmsRequerimento;
 import View.icms.RelAceiteIcms;
 import java.awt.Dimension;
@@ -1763,6 +1764,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem31ActionPerformed
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        abreTelaInterna(new IcmsFrota());
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
