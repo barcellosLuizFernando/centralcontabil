@@ -6,6 +6,7 @@
 package View.icms;
 
 import conexoes.ConexaoMySQL;
+import ferramenta.ImprimeRelatorio;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -28,14 +29,16 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
 
     private int var_consulta;
-    String uf;
+    private String uf;
 
-    DateFormat dateOut = new SimpleDateFormat("yyyy/MM/dd");
-    DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dateOut = new SimpleDateFormat("yyyy/MM/dd");
+    private final DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
 
-    DecimalFormat df = new DecimalFormat("#,##0.00");
+    private final DecimalFormat df = new DecimalFormat("#,##0.00");
 
-    ConexaoMySQL cn = new ConexaoMySQL();
+    private final ConexaoMySQL cn = new ConexaoMySQL();
+    
+    private final ImprimeRelatorio rel = new ImprimeRelatorio();
 
     /**
      * Creates new form Rel_Requerimento_ICMS
@@ -80,6 +83,9 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         jPesquisar.setTitle("Pesquisar");
         jPesquisar.setMinimumSize(new java.awt.Dimension(700, 400));
@@ -346,6 +352,38 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jButton3.setText("Emitir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("DECLARAÇÃO DE IMOBILIZADO");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -358,7 +396,10 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -370,6 +411,8 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -518,12 +561,32 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int linha = jTable1.getSelectedRow();
+
+        if (linha >= 0) {
+            
+            String sql = "SELECT * FROM controladoria.rel_imobilizado "
+                    + "WHERE id = " + jTxtIdPessoa.getText() + " "
+                    + "AND area_id = " + jTable1.getValueAt(linha, 8).toString();
+
+            String relatorio = "DeclaracaoImob.jasper";
+            
+            rel.imprimir(sql, relatorio, "Declaração de Imobilizado");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Você precisa selecionar um requerimento para emitir a Declaração de Imobilizado.");
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;
     private javax.swing.JButton jBtnConfirmar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
@@ -531,11 +594,13 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JFrame jPesquisar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
@@ -625,6 +690,7 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
         lista.addColumn("uf");
         lista.addColumn("regional");
         lista.addColumn("Inclusão");
+        lista.addColumn("id_area");
 
         jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
         jTable1.getColumnModel().getColumn(0).setMinWidth(100);
@@ -638,6 +704,10 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
         jTable1.getColumnModel().getColumn(6).setMinWidth(0);
         jTable1.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         jTable1.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(8).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(8).setMinWidth(0);
+        jTable1.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(0);
+        jTable1.getTableHeader().getColumnModel().getColumn(8).setMinWidth(0);
     }
 
     private void montaLista() {
@@ -728,7 +798,7 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
 
         String sql = "SELECT DISTINCT a.id, a.municipio, a.ie, sum(a.valor_nf) as valor_nf, "
                 + "sum(a.valor_credito) as valor_credito, a.uf_de_entrega as uf, "
-                + "a.mun_de_entrega as regional, a.dt_emissao "
+                + "a.mun_de_entrega as regional, a.dt_emissao, a.id_estabelecimento "
                 + "FROM rel_icms_produtor a "
                 + "WHERE a.id_produtor = '" + jTxtIdPessoa.getText() + "' "
                 + "GROUP BY a.id ";
@@ -750,7 +820,8 @@ public class Rel_Requerimento_ICMS extends javax.swing.JInternalFrame {
                     df.format(cn.rs.getDouble("valor_credito")),
                     cn.rs.getString("uf"),
                     cn.rs.getString("regional"),
-                    dateIn.format(cn.rs.getDate("dt_emissao"))
+                    dateIn.format(cn.rs.getDate("dt_emissao")),
+                    cn.rs.getString("id_estabelecimento")
                 });
             }
         } catch (SQLException ex) {

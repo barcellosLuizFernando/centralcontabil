@@ -83,8 +83,6 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         jTxtNomeFabricante = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jTxtDtAquisicao = new javax.swing.JFormattedTextField(data);
-        jTxtDtAlienacao = new javax.swing.JFormattedTextField(data);
         jLabel9 = new javax.swing.JLabel();
         jTxtPlaca = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -93,6 +91,8 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jTxtAno = new ferramenta.JTextFieldSomenteNumeros();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jTxtDtAquisicao = new javax.swing.JFormattedTextField(data);
+        jTxtDtAlienacao = new javax.swing.JFormattedTextField(data);
         jPanel3 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -277,8 +277,6 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Data de Aquisição");
 
-        jTxtDtAlienacao.setEnabled(false);
-
         jLabel9.setText("Data de Alienação");
 
         jLabel11.setText("Placa");
@@ -291,6 +289,19 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         jCheckBox1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jCheckBox1MouseClicked(evt);
+            }
+        });
+
+        jTxtDtAquisicao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtDtAquisicaoFocusLost(evt);
+            }
+        });
+
+        jTxtDtAlienacao.setEnabled(false);
+        jTxtDtAlienacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtDtAlienacaoFocusLost(evt);
             }
         });
 
@@ -383,11 +394,11 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
                         .addComponent(jLabel6))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
-                        .addComponent(jTxtDtAquisicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTxtDtAlienacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)
                         .addComponent(jTxtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11))))
+                        .addComponent(jLabel11)
+                        .addComponent(jTxtDtAquisicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtDtAlienacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         jButton5.setText("Limpar");
@@ -642,19 +653,54 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
             jTxtIdTipo.setText(jTable1.getValueAt(linha, 1).toString());
             jTxtDescricao.setText(jTable1.getValueAt(linha, 2).toString());
             jTxtIdFabricante.setText(jTable1.getValueAt(linha, 4).toString());
-            jTxtNroSerie.setText(jTable1.getValueAt(linha, 3).toString());
-            jTxtDtAquisicao.setText(jTable1.getValueAt(linha, 5).toString());
-            jTxtDtAlienacao.setText(jTable1.getValueAt(linha, 6).toString());
-            jTxtAno.setText(jTable1.getValueAt(linha, 7).toString());
-            jTxtPlaca.setText(jTable1.getValueAt(linha, 8).toString());
-            jTxtChassi.setText(jTable1.getValueAt(linha, 9).toString());
 
-            a
-                    
-                    //CORRIGIR SITUAÇÕES ONDE O VALOR É NULL
-            
+            System.out.println("Inserindo Número de Série");
+            try {
+                jTxtNroSerie.setText(jTable1.getValueAt(linha, 3).toString());
+            } catch (Exception e) {
+                jTxtNroSerie.setText("");
+            }
+            System.out.println("Inserindo Data Aquisição");
+            try {
+                jTxtDtAquisicao.setText(dateIn.format(dateOut.parse(jTable1.getValueAt(linha, 5).toString().replace("-", "/"))));
+            } catch (Exception e) {
+                jTxtDtAquisicao.setValue(null);
+            }
+            System.out.println("Inserindo Data Alienação");
+            try {
+                jTxtDtAlienacao.setText(dateIn.format(dateOut.parse(jTable1.getValueAt(linha, 6).toString().replace("-", "/"))));
+                jCheckBox1.setSelected(true);
+                jTxtDtAlienacao.setEnabled(true);
+
+            } catch (Exception e) {
+
+                jTxtDtAlienacao.setValue(null);
+                jTxtDtAlienacao.setEnabled(false);
+                jCheckBox1.setSelected(false);
+            }
+            System.out.println("Inserindo Ano");
+            try {
+                jTxtAno.setText(jTable1.getValueAt(linha, 7).toString());
+            } catch (Exception e) {
+                jTxtAno.setText("");
+            }
+            System.out.println("Inserindo Placa");
+            try {
+                jTxtPlaca.setText(jTable1.getValueAt(linha, 8).toString());
+            } catch (Exception e) {
+                jTxtPlaca.setText("");
+            }
+            System.out.println("Inserindo Chassi");
+            try {
+                jTxtChassi.setText(jTable1.getValueAt(linha, 9).toString());
+            } catch (Exception e) {
+                jTxtChassi.setText("");
+            }
+
+            //CORRIGIR SITUAÇÕES ONDE O VALOR É NULL
         } catch (Exception e) {
-            //JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e);
+            System.exit(0);
         }
 
         var_consulta = 33;
@@ -663,6 +709,18 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         incluiPesquisa();
 
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTxtDtAquisicaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtDtAquisicaoFocusLost
+        if ("  /  /    ".equals(jTxtDtAquisicao.getText())) {
+            jTxtDtAquisicao.setValue(null);
+        }
+    }//GEN-LAST:event_jTxtDtAquisicaoFocusLost
+
+    private void jTxtDtAlienacaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtDtAlienacaoFocusLost
+        if ("  /  /    ".equals(jTxtDtAlienacao.getText())) {
+            jTxtDtAlienacao.setValue(null);
+        }
+    }//GEN-LAST:event_jTxtDtAlienacaoFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -698,8 +756,8 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTxtAno;
     private javax.swing.JTextField jTxtChassi;
     private javax.swing.JTextField jTxtDescricao;
-    private javax.swing.JTextField jTxtDtAlienacao;
-    private javax.swing.JTextField jTxtDtAquisicao;
+    private javax.swing.JFormattedTextField jTxtDtAlienacao;
+    private javax.swing.JFormattedTextField jTxtDtAquisicao;
     private javax.swing.JTextField jTxtId;
     private javax.swing.JTextField jTxtIdFabricante;
     private javax.swing.JTextField jTxtIdTipo;
@@ -725,6 +783,7 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
             case 11:
 
                 montaTabelaFrotas();
+                limpaCampos();
 
                 DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
 
@@ -1010,10 +1069,12 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         jTxtDescricao.setText("");
         jTxtAno.setText("");
         jTxtChassi.setText("");
-        //jTxtDtAlienacao.setText("");
-        ///jTxtDtAquisicao.setText("");
         jTxtNroSerie.setText("");
         jTxtPlaca.setText("");
+        jTxtDtAquisicao.setValue(null);
+        jTxtDtAlienacao.setValue(null);
+        jTxtDtAlienacao.setEnabled(false);
+        jCheckBox1.setSelected(false);
     }
 
     private void montaTabelaFrotas() {

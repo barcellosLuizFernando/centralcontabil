@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProcuracaoICMS" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="07edf047-b5a1-47a9-9771-f9b8460a1afe">
+	<property name="ireport.zoom" value="1.1000000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from controladoria.rel_imobilizado where id = $P{id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="produtor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cpf" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="uf_de_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cidade" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="endereco" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cep" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_endereco" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_bairro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="municipio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ie" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area_atividades" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_nro_serie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_fabricante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_aquisicao" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_venda" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_ano" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_placa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imo_chassi" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="264" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="95" width="555" height="31" uuid="8dd54920-8960-4fc7-9ad9-102d4d47c3ee"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="29" y="166" width="500" height="76" uuid="6dc5148a-3e92-4409-92fa-bcc8f8abfbda"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{produtor}.toUpperCase() + ", inscrito no CPF/CNPJ sob nº "
++ ($F{cpf}.substring(0, 3) + "." + $F{cpf}.substring(3, 6) + "." + $F{cpf}.substring(6, 9) + "-" + $F{cpf}.substring(9, 11))
++ " e no Cadastro Estadual sob nº " + $F{ie}
++", sediado a " + $F{area_endereco} + " na Cidade de "
++ $F{municipio}+"/"+$F{uf_de_entrega}+", CEP " + $F{cep}+", DECLARA "
++ "para os devidos fins que possui os seguintes veículos agrícolas: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="242" width="100" height="20" uuid="2241c908-6bf6-4d4b-b95d-a843308d17d0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="242" width="179" height="20" uuid="17613de4-19de-41cf-8e38-96d49fb1fdc2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="242" width="99" height="20" uuid="0d02a041-8134-4473-9dc8-06f0631b4264"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Fabricante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="242" width="91" height="20" uuid="16a8d3e6-31c9-470f-85ed-45ad6219c4bb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Número de Série]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="242" width="27" height="20" uuid="e0ee0061-b8ad-4a5e-926a-09dfd07c70ac"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+			<line>
+				<reportElement x="129" y="242" width="1" height="20" uuid="999f17cc-c4ec-495e-8148-cc0c0c38c868"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="309" y="242" width="1" height="20" uuid="67efd78f-0734-4b18-9eaa-9ec083eb350d"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="409" y="242" width="1" height="20" uuid="fd728a10-1820-4962-830a-6c1471634538"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="501" y="242" width="1" height="20" uuid="04290a28-7e8e-4ecf-bf02-434b4a9ce0df"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="29" y="262" width="500" height="1" uuid="3ead88de-ba18-4f05-886c-76476beb75f1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="29" y="0" width="100" height="20" uuid="3c2960bf-496f-4516-9de2-0abb49e413f8"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imo_tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="179" height="20" uuid="9751b4d5-243b-4df8-b3e2-c4ac5362fb17"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imo_descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="99" height="20" uuid="e986c618-1a05-4b8a-8240-7302b13a786e"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imo_fabricante}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="91" height="20" uuid="21411874-2377-4dc2-913e-3032fa2be677"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imo_nro_serie}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="502" y="0" width="27" height="20" uuid="03c04126-6794-4d50-ae64-e287e2b31543"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{imo_ano}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="501" y="0" width="1" height="20" uuid="f9821fb2-33ea-404d-93ad-85b578d84f94"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="409" y="0" width="1" height="20" uuid="173379ab-d9de-47ac-afc7-257bcb34888f"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="309" y="0" width="1" height="20" uuid="94f6b6ca-47e8-4c7b-9e4a-c2de771587bc"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="129" y="0" width="1" height="20" uuid="a475168b-d240-4377-90c5-e421a7281028"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="214" splitType="Stretch">
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="143" y="0" width="358" height="20" uuid="74e04047-1acc-463b-beca-9c77d8084da5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{municipio}+"/"+$F{uf_de_entrega}+", " +new java.text.SimpleDateFormat(" dd 'de' MMMM 'de' yyyy ").format(new Date())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="158" y="85" width="239" height="1" uuid="cbc8fb5d-59c6-4199-9f4e-aa57e64c9821"/>
+			</line>
+			<textField>
+				<reportElement x="160" y="88" width="237" height="20" uuid="0a43b4bb-f273-4682-a95b-7024e1869489"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{produtor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="108" width="237" height="20" uuid="3b4d6600-71e5-456a-aa1e-e28357726dc0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="14"/>
+				</textElement>
+				<text><![CDATA[Declarante]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
