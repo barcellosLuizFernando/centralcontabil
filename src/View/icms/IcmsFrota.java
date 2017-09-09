@@ -96,6 +96,7 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -415,12 +416,21 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton6.setText("Excluir");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -429,6 +439,7 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jButton4)
             .addComponent(jButton5)
+            .addComponent(jButton6)
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -722,6 +733,35 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTxtDtAlienacaoFocusLost
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String sql = "DELETE FROM produtor_imobilizado "
+                + "WHERE id_produtor = " + jTxtId.getText() + " "
+                + "AND id = " + jTxtIdVeiculo.getText() + ";";
+
+        if (!"".equals(jTxtIdVeiculo.getText())) {
+            if (cn.conecta()) {
+                try {
+                    if (cn.executeAtualizacao(sql)) {
+                        JOptionPane.showMessageDialog(this, jTxtDescricao.getText() + " excluído com sucesso.");
+                    }
+
+                } catch (Exception e) {
+
+                } finally {
+                    cn.desconecta();
+                    limpaCampos();
+
+                    montaTabelaFrotas();
+                    var_consulta = 11;
+                    incluiPesquisa();
+                }
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione uma linha para continuar.");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;
@@ -731,6 +771,7 @@ public class IcmsFrota extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
