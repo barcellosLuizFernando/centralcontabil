@@ -129,15 +129,17 @@ public class RelAceiteIcms extends javax.swing.JInternalFrame {
                 + "a.dt_inicio_processo,round(sum(b.valor_credito),1) as credito,"
                 + "c.nome as produtor,concat(repeat('0',9-length(d.inscri_est)),d.inscri_est) as inscri_est,"
                 + "concat(repeat('0',11-length(c.inscricao_federal)),c.inscricao_federal) as cpf,"
-                + "a.credito_liberado,a.deferido,a.dt_analise,a.dt_inicial,"
+                + "case when e.valor is null then a.credito_liberado else a.credito_liberado - e.valor end as credito_liberado,"
+                + "a.deferido,a.dt_analise,a.dt_inicial,"
                 + "a.dt_final,a.informacao,a.percentual_aproveitado,a.processo,"
                 + "a.vendas FROM controladoria.produtor_icms a "
                 + "LEFT JOIN controladoria.produtor_icms_notas b on (b.id = a.id) "
                 + "LEFT JOIN controladoria.cad_pessoas c on (c.id = a.id_produtor) "
                 + "LEFT JOIN controladoria.icms_estabelecimentos d on (d.id = a.id_estabelecimento) "
+                + "LEFT JOIN (select z.id, sum(z.valor) as valor from controladoria.produtor_baixa_credito z group by z.id) e ON (e.id = a.id) "
                 + "WHERE a.deferido = 1 AND a.id = '" + jTable1.getValueAt(linha, 0).toString() + "' "
                 + "group by a.id, a.processo "
-                + "ORDER BY c.nome; "; 
+                + "ORDER BY c.nome; ";
         
         rel.imprimir(sql, "reports/AceiteICMS.jasper");
     }//GEN-LAST:event_jButton1ActionPerformed
