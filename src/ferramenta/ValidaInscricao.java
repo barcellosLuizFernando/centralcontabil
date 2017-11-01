@@ -195,6 +195,8 @@ public class ValidaInscricao {
 
     public void validaIE(String inscricaoEstadual, String siglaUf) throws Exception {
         String strIE = removeMascara(inscricaoEstadual);
+        System.out.println("\nValor recebido: " + inscricaoEstadual);
+        System.out.println("Valor Formatado: " + strIE + ". UF: + " + siglaUf);
         siglaUf = siglaUf.toUpperCase();
         if (siglaUf.equals("AC")) {
             validaIEAcre(strIE);

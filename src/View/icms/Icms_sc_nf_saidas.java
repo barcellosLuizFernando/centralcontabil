@@ -9,10 +9,13 @@ import conexoes.ConexaoMySQL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
+import ferramenta.JNumberFormatField99;
 
 /**
  *
@@ -28,11 +31,18 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
     DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
 
     DecimalFormat df = new DecimalFormat("#,##0.00");
+    private MaskFormatter data;
 
     /**
      * Creates new form Icms_sc_nf_saidas
      */
     public Icms_sc_nf_saidas() {
+        try {
+            data = new javax.swing.text.MaskFormatter("##/##/####");
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
         initComponents();
         montaTabelaNF();
     }
@@ -73,10 +83,10 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         jTxtIdEmitente = new javax.swing.JTextField();
         jTxtNomeEmitente = new javax.swing.JTextField();
         jBtnPesquisaEmitente = new javax.swing.JButton();
-        jSpValor = new javax.swing.JSpinner();
-        jSpCredito = new javax.swing.JSpinner();
-        jSpData = new javax.swing.JSpinner();
         jCbTipo = new javax.swing.JComboBox<>();
+        jSpData = new javax.swing.JFormattedTextField(data);
+        jSpValor = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+        jSpCredito = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblNotasFiscais = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -235,14 +245,13 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
             }
         });
 
-        jSpValor.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 1.0d));
-
-        jSpCredito.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 1.0d));
-
-        jSpData.setModel(new javax.swing.SpinnerDateModel());
-        jSpData.setEditor(new javax.swing.JSpinner.DateEditor(jSpData, "dd/MM/yyyy"));
-
         jCbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Energia Elétrica", "Maquinário", "Insumos", "Peças", "Diesel" }));
+
+        jSpCredito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSpCreditoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -277,18 +286,16 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                                         .addComponent(jBtnPesquisaEmitente))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTxtNotaFiscal)
-                                            .addComponent(jSpValor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTxtNotaFiscal, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                            .addComponent(jSpValor))
                                         .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jLabel4))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jSpData, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel7)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jSpCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jSpData)
+                                            .addComponent(jSpCredito, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
                                         .addGap(18, 18, 18)
                                         .addComponent(jCbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -330,8 +337,8 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jTxtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -493,11 +500,17 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         String id = jTxtId.getText();
         String nf = jTxtNotaFiscal.getText();
         String tipo_Produto = jCbTipo.getSelectedItem().toString();
-        Date data = (Date) jSpData.getValue();
-        Double valor = (Double) jSpValor.getValue();
-        Double credito = (Double) jSpCredito.getValue();
+        Date data = null;
+        Double valor = Double.parseDouble(jSpValor.getText().replace(".", "").replace(",", "."));
+        Double credito = Double.parseDouble(jSpCredito.getText().replace(".", "").replace(",", "."));
         String emitente = jTxtIdEmitente.getText();
         String sql;
+
+        try {
+            data = dateIn.parse(jSpData.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
 
         cn.conecta();
         sql = "INSERT INTO produtor_icms_notas (id,tipo_produto,nro_nf,"
@@ -545,6 +558,10 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBtnExcluiNfActionPerformed
 
+    private void jSpCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSpCreditoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSpCreditoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;
@@ -571,9 +588,9 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSpinner jSpCredito;
-    private javax.swing.JSpinner jSpData;
-    private javax.swing.JSpinner jSpValor;
+    private javax.swing.JTextField jSpCredito;
+    private javax.swing.JFormattedTextField jSpData;
+    private javax.swing.JTextField jSpValor;
     private javax.swing.JTable jTblConsulta_Multi;
     private javax.swing.JTable jTblNotasFiscais;
     private javax.swing.JTextField jTxtId;
@@ -1083,9 +1100,10 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
 
     private void limpaCampos() {
         jTxtNotaFiscal.setText("");
-        jSpValor.setValue(0.00);
-        jSpCredito.setValue(0.00);
+        jSpValor.setText("");
+        jSpCredito.setText("");
         jTxtIdEmitente.setText("");
         jTxtNomeEmitente.setText("");
+        jSpData.setValue(null);
     }
 }
