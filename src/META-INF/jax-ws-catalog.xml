@@ -8,5 +8,5 @@
     <system systemId="file:/D:/Projetos/CentralContabil/../PL_009_V4/leiauteNFe_v4.00.xsd" uri="xml-resources/jaxb/SchemaNFe/leiauteNFe_v4.00.xsd"/>
     <system systemId="file:/D:/Projetos/PL_009_V4/xmldsig-core-schema_v1.01.xsd" uri="xml-resources/jaxb/SchemaNFe/xmldsig-core-schema_v1.01.xsd"/>
     <system systemId="file:/D:/Projetos/PL_009_V4/tiposBasico_v4.00.xsd" uri="xml-resources/jaxb/SchemaNFe/tiposBasico_v4.00.xsd"/>
-    <system systemId="file:/D:/new%201.wsdl" uri="xml-resources/web-service-references/new_201/wsdl/new%201.wsdl"/>
+    <system systemId="file:/D:/new%201.wsdl" uri="wsdl/new%201.wsdl"/>
 </catalog>
