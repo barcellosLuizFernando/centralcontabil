@@ -1,0 +1,6 @@
+<consultaCadastro2 xmlns:ns2="http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro2">
+    <nfeDadosMsg><>
+        <cUF>PR</cUF>
+        <versaoDados>3.10</versaoDados></>
+    </nfeDadosMsg>
+</consultaCadastro2>

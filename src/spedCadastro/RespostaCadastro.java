@@ -362,13 +362,13 @@ public class RespostaCadastro {
         try {
 
             if (escreveXML(cnpj, ie, cpf, uf)) {
-                if (cons.consultaCad(uf, "CONS-CAD", "H")) {;
+                if (cons.consultaCad(uf, "CONS-CAD", "H")) {
                     leXML();
                 }
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(RespostaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }
@@ -577,11 +577,12 @@ public class RespostaCadastro {
 
             //cad.leXML();
             //cad.escreveXML("07353613000151", null,"PR");
-            cad.consultaCadastro("PR", "07353613000151", null, null);
+            cad.consultaCadastro("sc", "76578202000187", null, null);
 
             //System.out.println("cUF: " + cad.getcUF() + ". Versão Dados: " + cad.getVersaoDados());
         } catch (Exception ex) {
             Logger.getLogger(RespostaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 

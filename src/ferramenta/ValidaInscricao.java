@@ -118,7 +118,7 @@ public class ValidaInscricao {
                 || (CNPJ.length() != 14)) {
             return (false);
         }
-
+        
         char dig13, dig14;
         int sm, i, r, num, peso;
 
@@ -183,7 +183,7 @@ public class ValidaInscricao {
      * @param ie String contendo o número formatado.
      * @return
      */
-    private static String removeMascara(String ie) {
+    public static String removeMascara(String ie) {
         String strIE = "";
         for (int i = 0; i < ie.length(); i++) {
             if (Character.isDigit(ie.charAt(i))) {

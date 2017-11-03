@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import ferramenta.JNumberFormatField99;
+import ferramenta.ValidaInscricao;
 
 /**
  *
@@ -25,13 +26,15 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
 
     private int var_consulta;
 
-    ConexaoMySQL cn = new ConexaoMySQL();
+    private final ConexaoMySQL cn = new ConexaoMySQL();
 
-    DateFormat dateOut = new SimpleDateFormat("yyyy/MM/dd");
-    DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
-
-    DecimalFormat df = new DecimalFormat("#,##0.00");
+    private final DateFormat dateOut = new SimpleDateFormat("yyyy/MM/dd");
+    private final DateFormat dateIn = new SimpleDateFormat("dd/MM/yyyy");
+    private final DecimalFormat df = new DecimalFormat("#,##0.00");
+    private MaskFormatter cnpj;
     private MaskFormatter data;
+    private ValidaInscricao val = new ValidaInscricao();
+    private String cnpjAtual, cnpjAnterior, idEmitenteAnterior, nomeEmitenteAnterior;
 
     /**
      * Creates new form Icms_sc_nf_saidas
@@ -39,6 +42,7 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
     public Icms_sc_nf_saidas() {
         try {
             data = new javax.swing.text.MaskFormatter("##/##/####");
+            cnpj = new javax.swing.text.MaskFormatter("##.###.###/####-##");
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
@@ -87,6 +91,9 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         jSpData = new javax.swing.JFormattedTextField(data);
         jSpValor = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
         jSpCredito = new JNumberFormatField99(new DecimalFormat("#,##0.00"));
+        jLabel11 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField(cnpj);
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblNotasFiscais = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -253,6 +260,24 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel11.setText("Inscrição Federal");
+
+        jFormattedTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jFormattedTextField1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextField1FocusLost(evt);
+            }
+        });
+
+        jButton1.setText("Repetir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -275,7 +300,8 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel11))
                                 .addGap(42, 42, 42)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -285,13 +311,15 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                                         .addGap(11, 11, 11)
                                         .addComponent(jBtnPesquisaEmitente))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTxtNotaFiscal, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                                            .addComponent(jSpValor))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTxtNotaFiscal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                            .addComponent(jSpValor, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel4))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jSpData)
@@ -347,11 +375,16 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                     .addComponent(jSpCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTxtIdEmitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTxtNomeEmitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnPesquisaEmitente))
-                .addGap(45, 45, 45))
+                .addGap(72, 72, 72))
         );
 
         jTblNotasFiscais.setModel(new javax.swing.table.DefaultTableModel(
@@ -522,7 +555,9 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         cn.desconecta();
 
         if (ConexaoMySQL.resultadoUpd < 1) {
-
+            cnpjAnterior = jFormattedTextField1.getText();
+            idEmitenteAnterior = jTxtIdEmitente.getText();
+            nomeEmitenteAnterior = jTxtNomeEmitente.getText();
             mostraNF();
             limpaCampos();
         }
@@ -562,6 +597,42 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jSpCreditoActionPerformed
 
+    private void jFormattedTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusLost
+        String cnpj = jFormattedTextField1.getText();
+        if (!cnpj.equals(cnpjAtual)) {
+
+            jTxtIdEmitente.setText("");
+            jTxtNomeEmitente.setText("");
+
+            if ("  .   .   /    -  ".equals(jFormattedTextField1.getText())) {
+                jFormattedTextField1.setValue(null);
+            } else if (val.isCNPJ(val.removeMascara(jFormattedTextField1.getText())) == false) {
+                JOptionPane.showMessageDialog(null, "O CNPJ " + jFormattedTextField1.getText() + " não é uma inscrição válida.");
+                jFormattedTextField1.grabFocus();
+                jFormattedTextField1.setValue(null);
+            } else {
+                var_consulta = 5;
+                IncluiPesquisa();
+
+                if ("".equals(jTxtNomeEmitente.getText())) {
+                    JOptionPane.showMessageDialog(null, "Emitente não cadastrado.");
+                    jFormattedTextField1.setValue(null);
+                }
+
+            }
+        }
+    }//GEN-LAST:event_jFormattedTextField1FocusLost
+
+    private void jFormattedTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusGained
+        cnpjAtual = jFormattedTextField1.getText();        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextField1FocusGained
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jFormattedTextField1.setText(cnpjAnterior);
+        jTxtIdEmitente.setText(idEmitenteAnterior);
+        jTxtNomeEmitente.setText(nomeEmitenteAnterior);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;
@@ -570,9 +641,12 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnIncluiNf;
     private javax.swing.JButton jBtnPesquisaEmitente;
     private javax.swing.JButton jBtnPesquisar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCbTipo;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -748,6 +822,30 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
                 }
 
                 cn.desconecta();
+                break;
+
+            case 5:
+
+                String cnpj = val.removeMascara(jFormattedTextField1.getText());
+
+                sql = "SELECT * FROM controladoria.cad_pessoas a "
+                        + "WHERE a.inscricao_federal = '" + cnpj + "';";
+
+                if (cn.conecta()) {
+                    try {
+                        cn.executeConsulta(sql);
+                        while (cn.rs.next()) {
+                            jTxtIdEmitente.setText(cn.rs.getString("id"));
+                            jTxtNomeEmitente.setText(cn.rs.getString("nome"));
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    } finally {
+                        cn.desconecta();
+                    }
+                }
+
+                break;
         }
     }
 
@@ -1105,5 +1203,6 @@ public class Icms_sc_nf_saidas extends javax.swing.JInternalFrame {
         jTxtIdEmitente.setText("");
         jTxtNomeEmitente.setText("");
         jSpData.setValue(null);
+        jFormattedTextField1.setValue(null);
     }
 }

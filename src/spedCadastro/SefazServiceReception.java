@@ -93,6 +93,8 @@ public class SefazServiceReception {
             File arquivo = new File(arquivoResposta);
             FileOutputStream fout = new FileOutputStream(arquivo);
             copy(in, fout);
+            
+            System.out.println("\nRETORNO DA SEFAZ: ");
             result.writeTo(System.out);//imprime o retorno da Sefaz
 
             resposta = true;

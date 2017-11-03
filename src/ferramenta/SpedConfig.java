@@ -143,7 +143,7 @@ public class SpedConfig {
     public static void main(String[] args) {
         SpedConfig conf = new SpedConfig();
 
-        //conf.carregaConfig("H", "PR", "CONS-CAD", "DefinitionsTargetNamespaceURI");
+        conf.carregaConfig("DefinitionsTargetNamespaceURI");
         System.out.print("Código da UF: " + conf.getCod_uf());
         System.out.print(". Estado: " + conf.getUf());
         System.out.print(". Serviço: " + conf.getServico());

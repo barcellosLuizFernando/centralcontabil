@@ -9,4 +9,6 @@
     <system systemId="file:/D:/Projetos/PL_009_V4/xmldsig-core-schema_v1.01.xsd" uri="xml-resources/jaxb/SchemaNFe/xmldsig-core-schema_v1.01.xsd"/>
     <system systemId="file:/D:/Projetos/PL_009_V4/tiposBasico_v4.00.xsd" uri="xml-resources/jaxb/SchemaNFe/tiposBasico_v4.00.xsd"/>
     <system systemId="file:/D:/new%201.wsdl" uri="xml-resources/web-service-references/new_201/wsdl/new%201.wsdl"/>
+    <system systemId="file:/D:/Projetos/centralcontabil/src/wsdlSped/ConsultaNFE.wsdl" uri="xml-resources/web-service-references/ConsultaNFE/wsdl/ConsultaNFE.wsdl"/>
+    <system systemId="file:/D:/Projetos/centralcontabil/src/wsdlSped/ConsultaCadastro.wsdl" uri="xml-resources/jaxb/wsjaxbteste/ConsultaCadastro.wsdl"/>
 </catalog>

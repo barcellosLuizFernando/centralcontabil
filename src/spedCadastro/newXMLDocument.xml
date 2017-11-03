@@ -1,17 +1,19 @@
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
     <env:Header>
-        <nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF">
+        <nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro2">
             <versaoDados>2.00</versaoDados>
-            <cUF>41</cUF>
+            <cUF>42</cUF>
         </nfeCabecMsg>
     </env:Header>
     <env:Body>
-        <nfeDadosMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NfeDownloadNF">
-            <downloadNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="9.99">
-                <tpAmb>2</tpAmb>
-                <xServ>DOWNLOAD NFE</xServ>
-                <CNPJ>05528196000105</CNPJ>
-            </downloadNFe>
+        <nfeDadosMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro2">
+            <ConsCad xmlns="http://www.portalfiscal.inf.br/nfe" versao="2.00">
+                <infCons>
+                    <xServ>CONS-CAD</xServ>
+                    <UF>SC</UF>
+                    <CNPJ>05528196000105</CNPJ>
+                </infCons>
+            </ConsCad>
         </nfeDadosMsg>
     </env:Body>
 </env:Envelope>
